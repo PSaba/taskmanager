@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "priyanka",
+    "password": "password",
+    "database": "tasks",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "priyanka",
+    "password": "password",
+    "database": "tasks",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "priyanka",
+    "password": "password",
+    "database": "tasks",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

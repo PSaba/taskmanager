@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="tasks@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.7">
+    <root id="1"/>
+    <database id="2" parent="1" name="postgres">
+      <ObjectId>13267</ObjectId>
+      <Current>1</Current>
+    </database>
+    <database id="3" parent="1" name="priyanka">
+      <ObjectId>16385</ObjectId>
+    </database>
+    <database id="4" parent="1" name="tasks">
+      <ObjectId>16386</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <role id="5" parent="1" name="pg_monitor">
+      <ObjectId>3373</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="6" parent="1" name="pg_read_all_settings">
+      <ObjectId>3374</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="7" parent="1" name="pg_read_all_stats">
+      <ObjectId>3375</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="8" parent="1" name="pg_signal_backend">
+      <ObjectId>4200</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="9" parent="1" name="pg_stat_scan_tables">
+      <ObjectId>3377</ObjectId>
+      <Inherit>1</Inherit>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="10" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+      <BypassRls>1</BypassRls>
+    </role>
+    <role id="11" parent="1" name="priyanka">
+      <ObjectId>16384</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <schema id="12" parent="4" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2018-03-16.11:56:17.579</IntrospectionTimestamp>
+      <IntrospectionStateNumber>594</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="13" parent="4" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+      <IntrospectionTimestamp>2018-03-16.09:40:55.117</IntrospectionTimestamp>
+      <IntrospectionStateNumber>505</IntrospectionStateNumber>
+    </schema>
+    <schema id="14" parent="4" name="pg_toast">
+      <ObjectId>99</ObjectId>
+      <IntrospectionTimestamp>2018-03-16.09:40:55.117</IntrospectionTimestamp>
+      <IntrospectionStateNumber>566</IntrospectionStateNumber>
+    </schema>
+    <schema id="15" parent="4" name="pg_temp_1">
+      <ObjectId>11736</ObjectId>
+      <IntrospectionTimestamp>2018-03-16.09:40:55.117</IntrospectionTimestamp>
+    </schema>
+    <schema id="16" parent="4" name="pg_toast_temp_1">
+      <ObjectId>11737</ObjectId>
+      <IntrospectionTimestamp>2018-03-16.09:40:55.117</IntrospectionTimestamp>
+    </schema>
+    <schema id="17" parent="4" name="information_schema">
+      <ObjectId>12976</ObjectId>
+      <IntrospectionTimestamp>2018-03-16.09:40:55.117</IntrospectionTimestamp>
+      <IntrospectionStateNumber>503</IntrospectionStateNumber>
+    </schema>
+    <sequence id="18" parent="12" name="Tasks_id_seq">
+      <ObjectId>16477</ObjectId>
+      <StateNumber>594</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <sequence id="19" parent="12" name="Users_id_seq">
+      <ObjectId>16458</ObjectId>
+      <StateNumber>586</StateNumber>
+      <SequenceIdentity>1..2147483647</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+      <DataType>integer</DataType>
+    </sequence>
+    <table id="20" parent="12" name="SequelizeMeta">
+      <ObjectId>16414</ObjectId>
+      <StateNumber>565</StateNumber>
+    </table>
+    <table id="21" parent="12" name="Tasks">
+      <ObjectId>16479</ObjectId>
+      <StateNumber>594</StateNumber>
+    </table>
+    <table id="22" parent="12" name="Users">
+      <ObjectId>16460</ObjectId>
+      <StateNumber>586</StateNumber>
+    </table>
+    <column id="23" parent="20" name="name">
+      <Position>1</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>565</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="24" parent="20" name="SequelizeMeta_pkey">
+      <ObjectId>16417</ObjectId>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="25" parent="20" name="SequelizeMeta_pkey">
+      <ObjectId>16418</ObjectId>
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>SequelizeMeta_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="26" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>594</StateNumber>
+      <DefaultExpression>nextval(&apos;&quot;Tasks_id_seq&quot;&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>Tasks_id_seq</SequenceName>
+    </column>
+    <column id="27" parent="21" name="Name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>594</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="28" parent="21" name="Person">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>594</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="29" parent="21" name="createdAt">
+      <Position>4</Position>
+      <DataType>timestamp with time zone|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>594</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="30" parent="21" name="updatedAt">
+      <Position>5</Position>
+      <DataType>timestamp with time zone|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>594</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="31" parent="21" name="Tasks_pkey">
+      <ObjectId>16486</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="32" parent="21" name="Tasks_pkey">
+      <ObjectId>16487</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>Tasks_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="33" parent="22" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>586</StateNumber>
+      <DefaultExpression>nextval(&apos;&quot;Users_id_seq&quot;&apos;::regclass)</DefaultExpression>
+      <TypeId>23</TypeId>
+      <SequenceName>Users_id_seq</SequenceName>
+    </column>
+    <column id="34" parent="22" name="username">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>586</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="35" parent="22" name="handle">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>586</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="36" parent="22" name="password">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <StateNumber>586</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="37" parent="22" name="createdAt">
+      <Position>5</Position>
+      <DataType>timestamp with time zone|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>586</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <column id="38" parent="22" name="updatedAt">
+      <Position>6</Position>
+      <DataType>timestamp with time zone|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>586</StateNumber>
+      <TypeId>1184</TypeId>
+    </column>
+    <index id="39" parent="22" name="Users_pkey">
+      <ObjectId>16467</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="40" parent="22" name="Users_pkey">
+      <ObjectId>16468</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>Users_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
