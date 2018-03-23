@@ -8,12 +8,21 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      Name: {
+      name: {
         type: Sequelize.STRING
       },
-      Person: {
+      person: {
         type: Sequelize.STRING
       },
+      grouphandle: {
+        type: Sequelize.STRING
+      },
+      completed: {
+        type: Sequelize.BOOLEAN
+      },
+      category: {
+        type: Sequelize.STRING
+      }, 
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

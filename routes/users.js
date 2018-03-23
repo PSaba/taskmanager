@@ -1,62 +1,16 @@
 var express = require('express');
 var router = express.Router();
-const {Client} = require('pg').Client;
-/* GET users listing. */
+var Sequelize = require('sequelize');
+var model = require('../models/index');
 
-
-// app.get('/book/add', function(req, res){
-//   const client = new Client();
-//   client.connect().then( () => {
-//     console.log('connection complete');
-
-//     const sql = 'INSERT INTO books (title, authors) VALUES ($1, $2)';
-//     const params = [req.body.title, req.body.authors];
-//     client.query(sql, params);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   })
-// });
-
-// app.get('/books', function(req, res){
-
-//   const client = new Client();
-//   client.connect()
-//   .then(() => {
-//     return client.query('SELECT * FROM books;');
-//   })
-//   .then((results) => {
-//     console.log('results?', results);
-//     res.render('book-list');
-//   })
-//   .catch((err) =>{
-//     console.log('error', err);
-//     res.send('Something bad happened');
-//   });
-// });
-
-// app.post('/book/delete/:id', function(req, res){
-//   console.log('deleting id', req.params.id);
-
-//   const client = new Client();
-//   client.connect()
-//   .then(() => {
-//     const sql = 'DELETE FROM books WHERE book_id = $1;'
-//     const params = [req.params.id];
-//     return client.query(sql, params);
-//   })
-//   .then((results) => {
-//     console.log('delete results', results);
-//     res.redirect('/books');
-//   })
-//   .catch((err) =>{
-//     console.log('error', err);
-//     res.send('Something bad happened');
-//   });
-// });
-
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/handle', function(req, res, next) {
+  var params = {
+    handle: req.params.handle
+  }
+  model.sequelize.query('SELECT * FROM "Users" WHERE handle = $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+  .then(users => {
+    console.log(users);
+  })
 });
 
 router.get('/loginpage', function(req, res, next){
@@ -113,8 +67,38 @@ router.get('/signuppage', function(req, res, next){
   res.render('signuppage');
 });
 
-router.post('/signedup', function(req, res, next){
+router.get('/signedup', function(req, res, next){
+  var params = {
+    name: "newname",
+    handle: "handl1",
+    password: "soso",
+    category: "General",
+    grouporuser: false,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+  model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+  .then(users => {
+    console.log(users);
+  });
 
+  var params = {
+    userhandle: "handl1",
+    grouphandle: "handl1",
+    createdAt: new Date(),
+    updatedAt: new Date()
+  }
+  model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+  .then(users => {
+    console.log(users);
+  })
+});
+
+router.get('/allusers', function(req, res){
+  model.sequelize.query('SELECT * FROM "Users" WHERE grouporuser = false', { type: model.sequelize.QueryTypes.SELECT})
+  .then(users => {
+    console.log(users);
+  })
 });
 
 

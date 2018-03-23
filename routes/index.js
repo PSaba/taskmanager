@@ -20,18 +20,68 @@ router.get('/seetasks', function(req, res){
     console.log(users);
   })
   const params = ['John Doe'];
-  model.sequelize.query('SELECT *  FROM "Users" LEFt JOIN "Tasks" ON "Users"."username" = "Tasks"."Name" WHERE "Users".person = $1', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+  model.sequelize.query('SELECT *  FROM "Users" LEFt JOIN "Tasks" ON "Users"."name" = "Tasks"."name"', {  type: model.sequelize.QueryTypes.ACTION})
   .then(users => {
-    console.log(users);
+    console.log(users[0][0]);
+   // res.render('test', {everything: users});
   })
 });
 
+router.get('/personprofile/:handle', function(req, res){
+  var params = {
+    handle: req.params.handle
+  };
+  var taskssend;
+  model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle WHERE "Tasks".person LIKE \'handl1\'', { type: model.sequelize.QueryTypes.SELECT})
+  .then(tasks => {
+    console.log(tasks);
+    taskssend = tasks;
+//    res.render('test', {user:users[0]});
+      model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE \'handl1\' ', { type: model.sequelize.QueryTypes.SELECT})
+      .then(users => {
+        console.log(users[0]);
+        console.log(taskssend);
+        res.render('test', {user:users[0], tasks: tasks});
+      })
+  })
+
+  // model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE \'handl1\' ', { type: model.sequelize.QueryTypes.SELECT})
+  // .then(users => {
+  //   console.log(users[0]);
+  //   console.log(taskssend);
+  //   res.render('test', {user:users[0], tasks: taskssend});
+  // })
+});
+
+router.get('/allstuff', function(req, res){
+  var params = {
+    handle: req.params.handle
+  };
+  model.sequelize.query('SELECT * FROM "groupsusers"', { type: model.sequelize.QueryTypes.SELECT})
+  .then(users => {
+    console.log(users[0]);
+//    res.render('test', {user:users[0]});
+  })
+  var params = {
+    handle: req.params.handle
+  };
+  model.sequelize.query('SELECT * FROM "Tasks"', { type: model.sequelize.QueryTypes.SELECT})
+  .then(users => {
+    console.log(users[0]);
+//    res.render('test', {user:users[0]});
+  })
+  model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle WHERE "Tasks".person LIKE \'handl1\'', { type: model.sequelize.QueryTypes.SELECT})
+  .then(users => {
+    console.log(users);
+//    res.render('test', {user:users[0]});
+  })
+});
 router.post('/completetask', function(req, res){
 
 });
 
 router.delete('/deletetask', function(req, res){
-  
+
 })
 
 
