@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('client-sessions');
+var model = require('./models/index');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -20,13 +21,17 @@ session(session1));
 
 app.use(function(req, res, next) {
   if (req.session && req.session.user) {
-    userModel.findOne({ email: req.session.user.email }, function(err, user) {
-      if (user) { //USER VS USER SESSION!!!!!
-        req.user = user.toObject();
-        req.session.user = user;
+    var params = {
+      handle: req.session.user.handle
+    }
+    model.sequelize.query('SELECT * FROM "Users" WHERE handle LIKE $handle', {bind: params, type: model.sequelize.QueryTypes.SELECT})
+   .then((results) => {
+     if(results.rowCount != 0){
+        req.user = results[0];
+        req.session.user = results[0];
         delete req.user.password; // delete the password from the session
-        req.session.user = user;  //refresh the session value
-        res.locals.user = user;
+        req.session.user = results[0];  //refresh the session value
+        res.locals.user = results[0];
       }
       // finishing processing the middleware and run the route
       next();

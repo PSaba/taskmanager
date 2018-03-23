@@ -28,7 +28,7 @@ router.get('/seeall/personal/:handle/', function(req, res){
     })
   });
 
-router.get('/new', function(req, res){
+router.get('/newtemp', function(req, res){
     var params = {
         name: "Do this thing",
         person: "handl1",

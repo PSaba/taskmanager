@@ -24,13 +24,11 @@ router.post('/logout', function(req, res){
 });
 
 router.post('/loggedin', function(req, res, next){
-   const client = new Client();
-   client.connect()
-   .then(() => {
-     const sql = 'SELECT * FROM users WHERE user_name = $1;'
-     const params = [req.body.username.trim()];
-     return client.query(sql, params);
-   })
+  var params = {
+    name: req.body.username.trim(),
+    password: req.body.password.trim()
+  }
+  model.sequelize.query('SELECT * FROM "Users" WHERE name LIKE $name and password LIKE $password', {bind: params, type: model.sequelize.QueryTypes.SELECT})
    .then((results) => {
      if(results.rowCount === 0){
        res.render('/users/loginpage', {error: 'Something is messed up'});
@@ -38,10 +36,10 @@ router.post('/loggedin', function(req, res, next){
       req.user = results[0];
       delete req.user.password; // delete the password from the session
       req.session.user = results[0];
-      username = results[0].username;
-      io.login();
-     // res.redirect('/' + user.username);
-      res.redirect('/');
+      name = results[0].name;
+     // io.login();
+      res.redirect('/personprofile/' +name);
+      //res.redirect('/');
      }
 
    })
