@@ -28,6 +28,23 @@ router.get('/seeall/personal/:handle/', function(req, res){
     })
   });
 
+  router.post('/new/:handle', function(req, res){
+    console.log(req.user);
+    var params = {
+        name: req.body.message,
+        person: req.user.handle,
+        grouphandle: req.user.handle,
+        completed: false,
+        category: "General",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      .then(users => {
+        console.log(users);
+      })
+});
+
 router.get('/newtemp', function(req, res){
     var params = {
         name: "Do this thing",
@@ -69,6 +86,7 @@ router.get('/complete/:id', function(req, res){
     .then(users => {
       console.log(users);
     })
+    res.send('complete');
 });
 
 router.post('/assign', function(req, res){

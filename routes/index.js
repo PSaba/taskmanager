@@ -14,6 +14,26 @@ router.get('/', function(req, res, next) {
     reqhandle: 'thing', potfol: [['asdasda', ['sdadads']]] });
 });
 
+router.get('/:handle', function(req, res){
+  if(req.user){
+    var params = {
+      handle: req.params.handle
+    }
+    model.sequelize.query('SELECT grouporuser FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+      console.log(users[0]);
+      if(users[0].grouporuser){
+        res.redirect('/groupprofile/' + req.params.handle);
+      } else {
+        res.redirect('/personprofile/' + req.params.handle);
+      }
+      //res.render('test', {user:users[0], tasks: tasks});
+    })
+  } else {
+    res.redirect('/users/loginpage');
+  }
+});
+
 router.get('/seetasks', function(req, res){
   model.sequelize.query('SELECT * FROM "Users"', { type: model.sequelize.QueryTypes.SELECT})
   .then(users => {
@@ -27,30 +47,50 @@ router.get('/seetasks', function(req, res){
   })
 });
 
-router.get('/personprofile/:handle', function(req, res){
-  var params = {
+router.get('/groupprofile:handle', function(req, res){
+  if(req.user){
+    var params = {
     handle: req.params.handle
-  };
-  var taskssend;
-  model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle WHERE "Tasks".person LIKE \'handl1\'', { type: model.sequelize.QueryTypes.SELECT})
-  .then(tasks => {
-    console.log(tasks);
-    taskssend = tasks;
-//    res.render('test', {user:users[0]});
-      model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE \'handl1\' ', { type: model.sequelize.QueryTypes.SELECT})
-      .then(users => {
-        console.log(users[0]);
-        console.log(taskssend);
-        res.render('test', {user:users[0], tasks: tasks});
-      })
-  })
+    };
+    var taskssend;
+    model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(tasks => {
+      taskssend = tasks;
+  //    res.render('test', {user:users[0]});
+        model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+        .then(users => {
+          model.sequelize.query('SELECT * FROM "groupsusers" FULL JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+          .then(groups => {
+            res.render('test', {user:users[0], tasks: tasks, groups: groups});
+          })
+        })
+    })
+  } else {
+    res.redirect('/users/loginpage');
+  }
 
-  // model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE \'handl1\' ', { type: model.sequelize.QueryTypes.SELECT})
-  // .then(users => {
-  //   console.log(users[0]);
-  //   console.log(taskssend);
-  //   res.render('test', {user:users[0], tasks: taskssend});
-  // })
+});
+router.get('/personprofile/:handle', function(req, res){
+  if(req.user){
+    var params = {
+    handle: req.params.handle
+    };
+    var taskssend;
+    model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".userhandle = "Tasks".person WHERE "Tasks".person LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(tasks => {
+      taskssend = tasks;
+  //    res.render('test', {user:users[0]});
+        model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+        .then(users => {
+          model.sequelize.query('SELECT * FROM "groupsusers" FULL JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+          .then(groups => {
+            res.render('test', {user:users[0], tasks: tasks, groups: groups});
+          })
+        })
+    })
+  } else {
+    res.redirect('/users/loginpage');
+  }
 });
 
 router.get('/allstuff', function(req, res){

@@ -38,7 +38,7 @@ router.post('/loggedin', function(req, res, next){
       req.session.user = results[0];
       name = results[0].name;
      // io.login();
-      res.redirect('/personprofile/' +name);
+      res.redirect('/personprofile/' +results[0].handle);
       //res.redirect('/');
      }
 
@@ -65,11 +65,11 @@ router.get('/signuppage', function(req, res, next){
   res.render('signuppage');
 });
 
-router.get('/signedup', function(req, res, next){
+router.post('/signedup', function(req, res, next){
   var params = {
-    name: "newname",
-    handle: "handl1",
-    password: "soso",
+    name: req.body.name.trim(),
+    handle: req.body.username.trim(),
+    password: req.body.password1.trim(),
     category: "General",
     grouporuser: false,
     createdAt: new Date(),
@@ -81,8 +81,8 @@ router.get('/signedup', function(req, res, next){
   });
 
   var params = {
-    userhandle: "handl1",
-    grouphandle: "handl1",
+    userhandle: req.body.username.trim(),
+    grouphandle: req.body.username.trim(),
     createdAt: new Date(),
     updatedAt: new Date()
   }
@@ -90,6 +90,7 @@ router.get('/signedup', function(req, res, next){
   .then(users => {
     console.log(users);
   })
+  res.redirect('/personalprofile/'+ req.body.username.trim());
 });
 
 router.get('/allusers', function(req, res){
