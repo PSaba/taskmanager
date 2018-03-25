@@ -17,10 +17,10 @@ router.get('/loginpage', function(req, res, next){
   res.render('loginpage');
 });
 
-router.post('/logout', function(req, res){
+router.get('/logout', function(req, res){
   req.session.reset();
   req.user = null;
-  req.redirect('/users/loginpage');
+  res.redirect('/users/loginpage');
 });
 
 router.post('/loggedin', function(req, res, next){

@@ -16,12 +16,12 @@
               <li class="nav-item active">
                 <a class="nav-link" href = "/<%=user.handle%>">Home</a>
               </li>
-              <li class="nav-item active">
-                  <a class="nav-link" href = "/<%=user.handle%>">NewGroup</a>
-                </li>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newgroup">
+                  New Group
+                </button>
               <%groups.forEach(function(element){ %>
               <li class="nav-item active">
-                <a class="btn btn-secondary" href="/<%=element.handle%>" role="button"><%=element.handle%></a>
+                <a class="btn btn-secondary" href="/<%=element.grouphandle%>" role="button"><%=element.grouphandle%></a>
               </li>
               <%})%>
             </ul>
@@ -30,6 +30,36 @@
               <a  role="button" href="/users/logout" class="btn btn-secondary">Log Out</a>
             </span>
         </nav>
+        <div class="modal fade" id="newgroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">New Group</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method ="POST" action = "/groups/new">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/signedup">
+                          <br>
+                              <input type="text" class="form-control mb-3" name="name" placeholder="Group name">
+                              <input type="text" class="form-control mb-3" name="username" placeholder="Handle: NOTE THIS CANNOT BE CHANGED">
+                              <input type="password" class="form-control mb-3" name="password1" placeholder="Password">
+                              <input type="password" class="form-control mb-5" name="password2" placeholder="Please Reenter Password">
+                              <div class="modal-footer" >
+                                  <div class="col">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <input type="Submit" value="Sign Up" class="btn float-right btn-lg btn-primary"></input>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                      </form>
+                </div>
+              </div>
+            </div>
+          </div>
     <div class="container">
       <div class = "row">
         <div class = "col-md-4 name-contain ">

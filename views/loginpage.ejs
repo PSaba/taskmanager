@@ -28,41 +28,45 @@
                     <div class="text-left text-light float-left">Don't have an account?</div>
                     <button type="button" data-toggle="modal"data-target="#loginmodal" class="text-left float-left text-primary">Click Here!</a>
                 </div>-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newuser">
+                        New user
+                </button>
                 <div class="col">
                         <button type="submit" class="btn float-right btn-lg btn-primary">Log in</button>
                 </div>
             </div>
         </div>
     </form>
-    <div id="loginmodal" role="dialog" aria-hidden="true">
-            <button type="button" class="close" onclick=closeform() aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        <h1 class = "text-primary text-center">Join us today!</h1>
-        <% if(typeof error !== 'undefined'){ %>
-            <div>
-                <h2 style="color:red;"><%= error %></h2>
-            </div>
-        <% } %>
-        <form method ="POST" action = "/users/signedup">
-        <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/signedup">
-            <br>
-                <input type="text" class="form-control mb-3" name="name" placeholder="Full Name">
-                <input type="text" class="form-control mb-3" name="username" placeholder="Username: NOTE THIS CANNOT BE CHANGED">
-                <input type="password" class="form-control mb-3" name="password1" placeholder="Password">
-                <input type="password" class="form-control mb-5" name="password2" placeholder="Please Reenter Password">
-                <div class="modal-footer" >
-                <div class="col">
-                        <button type="button" id="login-open-button" onclick=closeform() data-toggle="modal"data-target="#loginmodal" class="text-left float-left text-primary">Login</a>
-                    </div>
-                    <div class="col">
-                            <input type="Submit" value="Sign Up" class="btn float-right btn-lg btn-primary"></input>
-                    </div>
+    <div class="modal fade" id="newuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">New User</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
                 </div>
+                <div class="modal-body">
+                    <form method ="POST" action = "/users/signedup">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/signedup">
+                          <br>
+                              <input type="text" class="form-control mb-3" name="name" placeholder="Full name">
+                              <input type="text" class="form-control mb-3" name="username" placeholder="Username: NOTE THIS CANNOT BE CHANGED">
+                              <input type="password" class="form-control mb-3" name="password1" placeholder="Password">
+                              <input type="password" class="form-control mb-5" name="password2" placeholder="Please Reenter Password">
+                              <div class="modal-footer" >
+                                  <div class="col">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <input type="Submit" value="Sign Up" class="btn float-right btn-lg btn-primary"></input>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                      </form>
                 </div>
+              </div>
             </div>
-        </form>
-    </div>
+          </div>
 </body>
 <script>
     $(function(){
