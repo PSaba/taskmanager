@@ -31,7 +31,7 @@ router.get('/:handle', function(req, res, next) {
   }
 });
 
-router.get('/loginpage', function(req, res, next){
+router.get('/loginpage', function(req, res){
   res.render('loginpage');
 });
 
