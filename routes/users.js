@@ -93,6 +93,88 @@ router.post('/signedup', function(req, res, next){
   res.redirect('/personalprofile/'+ req.body.username.trim());
 });
 
+router.post('/addcategory/:handle', function(req, res){
+  if(req.user){
+    var usertype = true;
+    var params = {
+      handle: req.params.handle
+    }
+    model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+      params = {
+        name: users[0].name,
+        handle: users[0].handle,
+        password: users[0].password,
+        category: req.body.category,
+        grouporuser: users[0].grouporuser,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      .then(users => {
+        console.log(users);
+      });
+    })
+    params = {
+      userhandle: req.user.handle,
+      grouphandle: req.params.handle,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+    .then(users => {
+      console.log(users);
+    })
+  } else {
+    res.redirect('/users/loginpage');
+  }
+});
+
+router.post('/joingroup/', function(req, res){
+  if(req.user){
+    var usertype = true;
+    var params = {
+      handle: req.user.handle
+    }
+    model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+      if(users[0].password === req.body.password){
+        var params = {
+          userhandle: req.user.handle,
+          grouphandle: req.body.handle,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+        model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+        .then(users => {
+          console.log(users);
+        })
+      }
+      
+    })
+
+   
+  } else {
+    res.redirect('/users/loginpage');
+  }
+});
+
+
+router.delete('/deletecategory/:handle', function(req, res){
+  if(req.user){
+    var usertype = true;
+    var params = {
+      handle: req.params.handle,
+      category: req.body.category
+    }
+    model.sequelize.query('DELETE FROM "Users" WHERE "Users".handle LIKE $handle and "Users".category LIKE $category', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+    })
+  } else {
+    res.redirect('/users/loginpage');
+  }
+});
+
 router.get('/allusers', function(req, res){
   model.sequelize.query('SELECT * FROM "Users" WHERE grouporuser = false', { type: model.sequelize.QueryTypes.SELECT})
   .then(users => {

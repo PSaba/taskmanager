@@ -9,10 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       }, 
       userhandle: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       grouphandle: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
+
       },
       createdAt: {
         allowNull: false,

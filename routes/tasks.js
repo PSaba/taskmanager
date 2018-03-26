@@ -33,9 +33,9 @@ router.get('/seeall/personal/:handle/', function(req, res){
     var params = {
         name: req.body.message,
         person: req.user.handle,
-        grouphandle: req.user.handle,
+        grouphandle: req.params.handle,
         completed: false,
-        category: "General",
+        category: req.body.category,
         createdAt: new Date(),
         updatedAt: new Date()
       }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Task Manager: <%= user.handle %></title>
+    <title>Task Manager: <%= requser.handle %></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -14,11 +14,20 @@
           <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class = "navbar-nav">
               <li class="nav-item active">
-                <a class="nav-link" href = "/<%=user.handle%>">Home</a>
+                <a class="nav-link" href = "/<%=requser.handle%>">Home</a>
               </li>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newgroup">
                   New Group
                 </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newcat">
+                    New Category
+              </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delcat">
+                  Delete Category
+              </button>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joingroup">
+                  Join Group
+              </button>
               <%groups.forEach(function(element){ %>
               <li class="nav-item active">
                 <a class="btn btn-secondary" href="/<%=element.grouphandle%>" role="button"><%=element.grouphandle%></a>
@@ -30,6 +39,108 @@
               <a  role="button" href="/users/logout" class="btn btn-secondary">Log Out</a>
             </span>
         </nav>
+        <div class="modal fade" id="joingroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Delete Category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method ="POST" action = "/users/joingroup/">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/joingroup/">
+                          <br>
+                            <select class="form-control" name="category" id="Categories">
+                              <input type="text" class="form-control mb-3" name="password" placeholder="Password">
+                              <% allgroups.forEach(function(element){ %>
+                                <option value='<%=element.handle%>'><%=element.handle%></option>
+                              <% })  %>
+                              </select>
+                              <div class="modal-footer" >
+                                  <div class="col">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <input type="Submit" value="Delete Category" class="btn float-right btn-lg btn-primary"></input>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                      </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="modal fade" id="delcat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Delete Category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method ="DELETE" action = "/users/deletecategory/<%=user[0].handle%>">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="DELETE" action = "/users/deletecategory/<%=user[0].handle%>">
+                          <br>
+                            <select class="form-control" name="category" id="Categories">
+                              <% user.forEach(function(element){ %>
+                                <option value='<%=element.category%>'><%=element.category%></option>
+                              <% })  %>
+                              </select>
+                              <div class="modal-footer" >
+                                  <div class="col">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <input type="Submit" value="Delete Category" class="btn float-right btn-lg btn-primary"></input>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                      </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="modal fade" id="newcat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">New Category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form method ="POST" action = "/users/addcategory/<%=user[0].handle%>">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/addcategory/<%=user[0].handle%>">
+                          <br>
+                              <input type="text" class="form-control mb-3" name="category" placeholder="Category Name">
+                              <div class="modal-footer" >
+                                  <div class="col">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                          <input type="Submit" value="New Category" class="btn float-right btn-lg btn-primary"></input>
+                                  </div>
+                              </div>
+                              </div>
+                          </div>
+                      </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <div class="modal fade" id="newgroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
@@ -65,14 +176,14 @@
         <div class = "col-md-4 name-contain ">
           <div class="card bg-light mt-5 border-top rounded" style="border-top: solid; border-top-width: 30px; border-top-color:#00B7FF; ">
          <!--<p class="bg-primary text-primary box" style: "height: 100px">you<br>found<br>secret<br>text</p>-->
-            <h2 class="card-title text-center"><%=user.name%></h5>
-            <h6 class="text-center text-handle">@<%=user.handle%></h6>
+            <h2 class="card-title text-center"><%=user[0].name%></h5>
+            <h6 class="text-center text-handle">@<%=user[0].handle%></h6>
          </div>
         </div>
         <div class = "col-md-8">
 
           <div class="card bg-primary mt-3">
-            <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/new/<%=user.handle%>">
+            <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/new/<%=user[0].handle%>">
                 <textarea name="message" type="text" onkeydown="limitText(this.message,this.countdown,250);" onkeyup='limitText(this.form.message,this.form.countdown,250);' id="post_area" class="form-control sending" placeholder="Type in here!"></textarea>
                 <input readonly class="bg-primary" type="text" name="countdown" size="3" value="250"> /250
                 <div class="row">
@@ -81,6 +192,11 @@
                         <br>
                         <div id="text_remain"></div>
                       </div>
+                      <select class="form-control" name="category" id="Categories">
+                        <% user.forEach(function(element){ %>
+                          <option value='<%=element.category%>'><%=element.category%></option>
+                        <% })  %>
+                        </select>
                       <div class="col">
                           <button type="submit" id="btn-sending" class="btn button-send float-right btn-secondary">Add Task</button>
                       </div>   

@@ -47,7 +47,7 @@ router.get('/seetasks', function(req, res){
   })
 });
 
-router.get('/groupprofile:handle', function(req, res){
+router.get('/groupprofile/:handle', function(req, res){
   if(req.user){
     var params = {
     handle: req.params.handle
@@ -59,9 +59,22 @@ router.get('/groupprofile:handle', function(req, res){
   //    res.render('test', {user:users[0]});
         model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
         .then(users => {
-          model.sequelize.query('SELECT * FROM "groupsusers" FULL JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+          params = {
+            handle: req.user.handle
+          }
+          model.sequelize.query('SELECT * FROM "groupsusers" INNER JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(groups => {
-            res.render('test', {user:users[0], tasks: tasks, groups: groups});
+            params = {
+              handle: req.params.handle
+            }
+            model.sequelize.query('SELECT * FROM "groupsusers" INNER JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.grouphandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+            .then(members => {
+
+              model.sequelize.query('SELECT * FROM "Users" WHERE "Users".grouporuser = \'1\'', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+              .then(allgroups => {
+                res.render('groupprofile', {members: members, allgroups: allgroups, requser: req.user, user:users, tasks: tasks, groups: groups});
+              })
+            })
           })
         })
     })
@@ -84,7 +97,10 @@ router.get('/personprofile/:handle', function(req, res){
         .then(users => {
           model.sequelize.query('SELECT * FROM "groupsusers" FULL JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(groups => {
-            res.render('test', {user:users[0], tasks: tasks, groups: groups});
+            model.sequelize.query('SELECT * FROM "Users" WHERE "Users".grouporuser = \'1\'', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+            .then(allgroups => {
+              res.render('test', {allgroups: allgroups, requser: req.user, user:users, tasks: tasks, groups: groups});
+            })
           })
         })
     })
