@@ -3,20 +3,12 @@ var router = express.Router();
 var Sequelize = require('sequelize');
 var model = require('../models/index');
 
-
-router.get('/', function(req, res, next) {
-  res.render('index', { name: 'hi', username: 'hi', handle: 'hi', 
-    tweets: 21321, followers: [['asdasda', ['sdadads']]],
-    posts: [['asdasda', ['sdadads']]], following: [['asdasda', ['sdadads']]], 
-    reqhandle: 'thing', potfol: [['asdasda', ['sdadads']]] });
-});
-
 router.get('/seeall', function(req, res){
-  const params = ['John Doe'];
-  model.sequelize.query('SELECT *  FROM "Users" LEFt JOIN "Tasks" ON "Users"."username" = "Tasks"."Name" WHERE "Users".person = $1', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+  model.sequelize.query('SELECT *  FROM "Users" LEFt JOIN "Tasks" ON "Users"."username" = "Tasks"."Name"', { bind: params, type: model.sequelize.QueryTypes.ACTION})
   .then(users => {
     console.log(users);
   })
+  res.end();
 });
 
 // user/group/tasks
@@ -26,10 +18,10 @@ router.get('/seeall/personal/:handle/', function(req, res){
     .then(users => {
       console.log(users);
     })
+    res.end();
   });
 
   router.post('/new/:handle', function(req, res){
-    console.log(req.user);
     var params = {
         name: req.body.message,
         person: req.user.handle,
@@ -43,38 +35,7 @@ router.get('/seeall/personal/:handle/', function(req, res){
       .then(users => {
         console.log(users);
       })
-});
-
-router.get('/newtemp', function(req, res){
-    var params = {
-        name: "Do this thing",
-        person: "handl1",
-        grouphandle: "handl1",
-        completed: false,
-        category: "General",
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-      .then(users => {
-        console.log(users);
-      })
-});
-
-router.get('/new2', function(req, res){
-    var params = {
-        name: "Do this thing too",
-        person: "handl1",
-        grouphandle: "handl1",
-        completed: false,
-        category: "General",
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-      .then(users => {
-        console.log(users);
-      })
+    res.end();
 });
 
 router.get('/complete/:id', function(req, res){
