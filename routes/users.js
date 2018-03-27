@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Sequelize = require('sequelize');
 var model = require('../models/index');
+var io = require('../io');
 
-router.get('/:handle', function(req, res, next) {
+router.get('/prof/:handle', function(req, res ) {
   if(req.user){
     var params = {
     handle: req.params.handle
@@ -31,6 +32,10 @@ router.get('/:handle', function(req, res, next) {
   }
 });
 
+router.get('/login', function(req, res){
+  res.render('loginpage');
+})
+
 router.get('/loginpage', function(req, res){
   res.render('loginpage');
 });
@@ -41,7 +46,7 @@ router.get('/logout', function(req, res){
   res.redirect('/users/loginpage');
 });
 
-router.post('/loggedin', function(req, res, next){
+router.post('/loggedin', function(req, res){
   var params = {
     name: req.body.username.trim(),
     password: req.body.password.trim()
@@ -55,8 +60,8 @@ router.post('/loggedin', function(req, res, next){
       delete req.user.password; // delete the password from the session
       req.session.user = results[0];
       name = results[0].name;
-     // io.login();
-      res.redirect('/users/' +results[0].handle);
+      io.login();
+      res.redirect('/users/prof/' +results[0].handle);
       //res.redirect('/');
      }
 
@@ -67,7 +72,7 @@ router.post('/loggedin', function(req, res, next){
    });
 });
 
-router.post('/signedup', function(req, res, next){
+router.post('/signedup', function(req, res){
   if(req.body.password1 != req.body.password2){
     res.render('loginpage', {err: "Your passwords don't match"});
   } else {
@@ -158,9 +163,14 @@ router.post('/joingroup/', function(req, res){
           createdAt: new Date(),
           updatedAt: new Date()
         }
-        model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-        .then(users => {
-          console.log(users);
+        model.sequelize.query('SELECT * FROM "groupsusers" WHERE "groupsusers"."userhandle" LIKE $userhandle AND "groupsusers"."grouphandle" LIKE $grouphandle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+        .then(results => {
+          if(result[0] === undefined){
+              model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+            .then(users => {
+              console.log(users);
+            })
+          }
         })
         res.end();
       }

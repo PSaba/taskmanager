@@ -3,7 +3,8 @@ var sesh = require('./session');
 var session = require('client-sessions');
 var cookieParser = require('cookie-parser');
 var cookietemp = require('cookie');
-const {Client} = require('pg').Client;
+var Sequelize = require('sequelize');
+var model = require('../models/index');
 
 module.exports = {init: function(server){
         io = require('socket.io')(server);

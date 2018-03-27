@@ -15,28 +15,6 @@ router.get('/', function(req, res, next) {
   }
 });
 
-router.get('/:handle', function(req, res){
-  if(req.user){
-    var params = {
-      handle: req.params.handle
-    }
-    model.sequelize.query('SELECT grouporuser FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
-    .then(users => {
-      try {
-        if(users[0].grouporuser){
-          res.redirect('/groups/' + req.params.handle);
-        } else {
-          res.redirect('/users/' + req.params.handle);
-        }
-      } catch (error) {
-        res.redirect('/users/loginpage');
-      }
-    })
-  } else {
-    res.redirect('/users/loginpage');
-  }
-});
-
 router.get('/seetasks', function(req, res){
   model.sequelize.query('SELECT * FROM "Users"', { type: model.sequelize.QueryTypes.SELECT})
   .then(users => {
@@ -143,5 +121,26 @@ router.get('/allstuff', function(req, res){
   })
 });
 
+router.get('/:handle', function(req, res){
+  if(req.user){
+    var params = {
+      handle: req.params.handle
+    }
+    model.sequelize.query('SELECT grouporuser FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+      try {
+        if(users[0].grouporuser){
+          res.redirect('/groups/' + req.params.handle);
+        } else {
+          res.redirect('/users/' + req.params.handle);
+        }
+      } catch (error) {
+        res.redirect('/users/loginpage');
+      }
+    })
+  } else {
+    res.redirect('/users/loginpage');
+  }
+});
 
 module.exports = router;
