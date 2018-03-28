@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Task Manager: <%= requser.handle %></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -199,7 +200,7 @@
                         <% })  %>
                         </select>
 
-                        <h5>Select Due Date: </h5><input type="date" name="dueday">
+                        <h5>Select Due Date: </h5><input type="date" name="duetime">
                       <div class="col">
                           <button type="submit" id="btn-sending" class="btn button-send float-right btn-secondary">Add Task</button>
                       </div>   
@@ -212,13 +213,11 @@
                 <% tasks.forEach(function(element){ %>
                     <%if( !element.completed){%>
                     <li class="list-group-item d-inline-block">
-                                  <!--pic
-                                  <img src = "<%=element.image%>" class="rounded-circle border border-primary image-post">-->
-                                  <h5 class="d-inline-block"><%=element.name%></h5>
-                                  @<%=element.grouphandle%>
-                                  <a class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button">Complete</a>
-                                  <!--<button type="button" href="/users/tasks/complete/<%=element.id%>"class="btn btn-success float-right">Complete</button>-->
-                            </li>
+                        <h5><%=element.name%></h5> <br>
+                        <%=element.category%>
+                        @<%=element.grouphandle%>
+                        <a class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button"><%= element.duetime %></a>                            
+                    </li>
                     <%}%>
                 <% }); %>
             </ul>
@@ -230,11 +229,11 @@
        	$(function(){
           var socket = io();
 
-          socket.on('postmessage', function(msg){
-            console.log('message sent');
+          socket.on('posttask', function(msg){
+            console.log('task sent');
             console.log(msg.message);
-            $('#messages').prepend('<li class="list-group-item d-inline-block"><div class = "row"><div class= "col"><h5 class="d-inline-block"><a href = "/users/profilepage/'+ msg.user.handle + '">'+ msg.user.name +'</a></h5>@'+ msg.user.handle +'</div><div class="col text-right text-muted">Now</div></div><div class = "row text-left pl-4"><br>'+ msg.message + '</div></li>');
-        });
+            $('#messages').prepend('<li class="list-group-item d-inline-block"><h5 class="d-inline-block">'+ msg.message +'</h5>@'+ msg.user.handle + '<a class="btn btn-success float-right" href="/users/tasks/complete/' + msg.id + '" role=\"button\">'+ msg.time + '</a></li>');
+            });
       });
       
       

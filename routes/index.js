@@ -132,7 +132,7 @@ router.get('/:handle', function(req, res){
         if(users[0].grouporuser){
           res.redirect('/groups/' + req.params.handle);
         } else {
-          res.redirect('/users/' + req.params.handle);
+          res.redirect('/users/prof/' + req.params.handle);
         }
       } catch (error) {
         res.redirect('/users/loginpage');

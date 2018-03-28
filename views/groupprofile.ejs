@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Task Manager: <%= requser.handle %></title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -29,6 +30,9 @@
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#joingroup">
                   Join Group
               </button>
+              <li class="nav-item active">
+                  <a class="nav-link" href = "/groups/leave/<%=user.handle%><%=requser.handle%>">Leave Group</a>
+                </li>
               <%groups.forEach(function(element){ %>
               <li class="nav-item active">
                 <a class="btn btn-secondary" href="/<%=element.grouphandle%>" role="button"><%=element.grouphandle%></a>
@@ -185,7 +189,7 @@
          <ul class="list-group">
             <% members.forEach(function(element){ %>
               <li class="list-group-item"><%=element.name%>
-              @<%=element.grouphandle%></li>
+              @<%=element.userhandle%></li>
 
             <% }) %>
           </ul>
@@ -193,7 +197,7 @@
         <div class = "col-md-8">
 
           <div class="card bg-primary mt-3">
-            <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/new/<%=user[0].handle%>">
+            <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/new/group/<%=user[0].handle%>">
                 <textarea name="message" type="text" onkeydown="limitText(this.message,this.countdown,250);" onkeyup='limitText(this.form.message,this.form.countdown,250);' id="post_area" class="form-control sending" placeholder="Type in here!"></textarea>
                 <input readonly class="bg-primary" type="text" name="countdown" size="3" value="250"> /250
                 <div class="row">
@@ -207,6 +211,7 @@
                           <option value='<%=element.category%>'><%=element.category%></option>
                         <% })  %>
                         </select>
+                        <h5>Select Due Date: </h5><input type="date" name="duetime">
                       <div class="col">
                           <button type="submit" id="btn-sending" class="btn button-send float-right btn-secondary">Add Task</button>
                       </div>   
@@ -218,14 +223,19 @@
             <ul class="list-group mt-5" name="messages" id="messages">
                 <% tasks.forEach(function(element){ %>
                     <%if( !element.completed){%>
-                    <li class="list-group-item d-inline-block">
-                                  <!--pic
-                                  <img src = "<%=element.image%>" class="rounded-circle border border-primary image-post">-->
-                                  <h5 class="d-inline-block"><%=element.name%></h5>
-                                  @<%=element.grouphandle%>
-                                  <a class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button">Complete</a>
-                                  <!--<button type="button" href="/users/tasks/complete/<%=element.id%>"class="btn btn-success float-right">Complete</button>-->
-                            </li>
+                      <li class="list-group-item d-inline-block">
+                          <h5><%=element.name%></h5> <br>
+                          <%=element.category%>
+                          @<%=element.userhandle%>
+                          <a class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button"><%= element.duetime %></a>                            
+                        <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/assign/<%=element.id%>">
+                          <select class="form-control" name="category" id="Categories">
+                              <% members.forEach(function(element){ %>
+                                <option value='<%=element.handle%>'><%=element.name%></option>
+                              <% })  %>
+                              </select>
+                        </form>
+                      </li>
                     <%}%>
                 <% }); %>
             </ul>
@@ -236,11 +246,10 @@
     <script>
        	$(function(){
           var socket = io();
-
-          socket.on('postmessage', function(msg){
-            console.log('message sent');
+          socket.on('posttask', function(msg){
+            console.log('task sent');
             console.log(msg.message);
-            $('#messages').prepend('<li class="list-group-item d-inline-block"><div class = "row"><div class= "col"><h5 class="d-inline-block"><a href = "/users/profilepage/'+ msg.user.handle + '">'+ msg.user.name +'</a></h5>@'+ msg.user.handle +'</div><div class="col text-right text-muted">Now</div></div><div class = "row text-left pl-4"><br>'+ msg.message + '</div></li>');
+            $('#messages').prepend('<li class="list-group-item d-inline-block"><h5 class="d-inline-block">'+ msg.message +'</h5>@'+ msg.user.handle + '<a class="btn btn-success float-right" href="/users/tasks/complete/' + msg.id + '" role=\"button\">'+ msg.time + '</a></li>');
         });
       });
       

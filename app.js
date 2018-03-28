@@ -26,13 +26,15 @@ app.use(function(req, res, next) {
     }
     model.sequelize.query('SELECT * FROM "Users" WHERE handle LIKE $handle', {bind: params, type: model.sequelize.QueryTypes.SELECT})
    .then((results) => {
-     if(results.rowCount != 0){
-        req.user = results[0];
+     try{
+       req.user = results[0];
         req.session.user = results[0];
         delete req.user.password; // delete the password from the session
         req.session.user = results[0];  //refresh the session value
         res.locals.user = results[0];
-      }
+     } catch (err ){
+      console.log("Not in session");
+     }
       // finishing processing the middleware and run the route
       next();
     });

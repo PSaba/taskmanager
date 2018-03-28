@@ -4,7 +4,7 @@ var session = require('client-sessions');
 var cookieParser = require('cookie-parser');
 var cookietemp = require('cookie');
 var Sequelize = require('sequelize');
-var model = require('../models/index');
+var model = require('./models/index');
 
 module.exports = {init: function(server){
         io = require('socket.io')(server);
@@ -28,29 +28,26 @@ login: function(){
         //             });
         //         }
         //     });
-        const client = new Client();
-        client.connect()
-        .then(() => {
-          const sql = 'SELECT FROM users WHERE username = $1;'
-          const params = [cookie.content.user.username];
-          return client.query(sql, params);
-        })
-        .then((results) => {
-          if(results.rowCount === 0){
-            res.render('/users/loginpage', {error: 'Something is messed up'});
-          } else{
-            results[0].groups.array.forEach(element => {
-                console.log(element.title);
-                socket.join(element.title);
-            });
+        var params = {
+          handle: cookie.content.user.handle,
+        }
+        console.log(cookie.content);
+        console.log("Joining sockets");
+        socket.join(cookie.content.user.handle,);
+        console.log(cookie.content.user.handle,);
+        model.sequelize.query('SELECT * FROM "groupsusers" WHERE "groupsusers".grouphandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      .then(tasks => {
+          try {
+            tasks.array.forEach(element => {
+            console.log(element.userhandle);
+            socket.join(element.userhandle);
+          });
+          } catch (error) {
+            console.log("Nothing here");
           }
-     
+          
         })
-        .catch((err) =>{
-          console.log('error', err);
-          res.send('Something bad happened');
-        });
-        });
+      })
 }
 , instance: function(){ 
         return io}

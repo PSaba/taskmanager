@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Sequelize = require('sequelize');
 var model = require('../models/index');
+var io = require('../io');
+
 
 router.get('/seeall', function(req, res){
   model.sequelize.query('SELECT *  FROM "Users" LEFt JOIN "Tasks" ON "Users"."username" = "Tasks"."Name"', { bind: params, type: model.sequelize.QueryTypes.ACTION})
@@ -27,15 +29,41 @@ router.get('/seeall/personal/:handle/', function(req, res){
         person: req.user.handle,
         grouphandle: req.params.handle,
         completed: false,
+        duetime: req.body.duetime,
         category: req.body.category,
         createdAt: new Date(),
         updatedAt: new Date()
       }
-      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
       .then(users => {
         console.log(users);
       })
-    res.end();
+    var socket = io.instance();
+    socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
+    socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
+    
+    res.redirect('/' + req.params.handle);
+});
+
+router.post('/new/group/:handle', function(req, res){
+  var params = {
+      name: req.body.message,
+      grouphandle: req.params.handle,
+      completed: false,
+      duetime: req.body.duetime,
+      category: req.body.category,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    model.sequelize.query('INSERT INTO "Tasks" ("name", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+    .then(users => {
+      console.log(users);
+    })
+  var socket = io.instance();
+  socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
+  socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
+  
+  res.redirect('/' + req.params.handle);
 });
 
 router.get('/complete/:id', function(req, res){
@@ -47,15 +75,51 @@ router.get('/complete/:id', function(req, res){
     .then(users => {
       console.log(users);
     })
-    res.send('complete');
+    res.redirect('/' + req.params.handle);
 });
 
-router.post('/assign', function(req, res){
+router.post('/assign/:id', function(req, res){
+  var params = {
+      id: req.params.id,
+      person: req.body.person
+  }
+  model.sequelize.query('UPDATE "Tasks" SET person = $person WHERE id=$id RETURNING *', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+  .then(tasks => {
+    console.log(tasks);
 
-});
+    params = {
+      id: req.params.id,
+      person: req.body.person
+    }
+    model.sequelize.query('SELECT * FROM "USERS" WHERE handle = $person RETURNING *', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+    .then(users => {
+      params = {
+        name: "NEW TASK ASSIGNED",
+        person: users[0].handle,
+        grouphandle: users[0].handle,
+        completed: false,
+        duetime: tasks[0].duetime,
+        category: "General",
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      .then(users => {
+        console.log(users);
+      })
+    })
 
-router.post('/accept', function(req, res){
+  })
 
+  var socket = io.instance();
+  socket.to(req.user.handle).emit('postmessage', {message: "NEW TASK ASSIGNED", user: req.user, time: req.body.duetime});
+  socket.to(req.params.handle).emit('postmessage', {message: "NEW TASK ASSIGNED", user: req.user, time: req.body.duetime});
+
+  var socket = io.instance();
+  socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
+  socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
+
+  res.redirect('/' + req.params.handle);
 });
 
 

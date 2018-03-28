@@ -13,8 +13,7 @@ module.exports = {
         allowNull: false
       },
       person: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.STRING
       },
       grouphandle: {
         type: Sequelize.STRING,
@@ -28,6 +27,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       }, 
+      duetime: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

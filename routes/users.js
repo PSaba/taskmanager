@@ -101,7 +101,7 @@ router.post('/signedup', function(req, res){
       .then(users => {
         console.log(users);
       })
-      res.redirect('/users/'+ req.body.username.trim());
+      res.redirect('/users/prof/'+ req.body.username.trim());
     } catch (error) {
       res.render('loginpage', {err: "Something happened"});
     }
