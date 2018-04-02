@@ -8,7 +8,7 @@ var model = require('./models/index');
 
 module.exports = {init: function(server){
         io = require('socket.io')(server);
-}, 
+},
 login: function(){
     io.on('connection', function(socket){
         console.log('user connected');

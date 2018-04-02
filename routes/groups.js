@@ -9,6 +9,14 @@ var model = require('../models/index');
 router.post('/new', function(req, res){
   if(req.body.password1 === req.body.password2){
     var params = {
+      handle: req.body.username.trim()
+    }
+    model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+      if(users === []){
+        res.render('loginpage', {err: "Handle already in use"});
+      } else {
+        params = {
         name: req.body.name,
         handle: req.body.username,
         password: req.body.password1,
@@ -33,8 +41,11 @@ router.post('/new', function(req, res){
           console.log(users);
         })
       }
-      res.redirect('/groupprofile/' + req.body.username);
-  }
+      res.redirect('/groups/' + req.body.username);
+      }
+    
+  })
+}
     res.send("Passwords don't match");
 });
 
@@ -68,16 +79,16 @@ router.get('/join/:handle', function(req, res){
     
 });
 
-router.get('/leave/:grouphandle/:personhandle', function(req, res){
+router.get('/leave/:grouphandle', function(req, res){
     var params = {
-        userhandle: req.params.personhandle,
+        userhandle: req.user.handle,
         grouphandle: req.params.grouphandle
       }
       model.sequelize.query('DELETE FROM "groupusers" WHERE userhandle = $userhandle AND grouphandle = $grouphandle', { bind: params, type: model.sequelize.QueryTypes.ACTION})
       .then(users => {
         console.log(users);
       })
-      res.end();
+      res.redirect('/');
 });
 
 router.post('/seeall', function(req, res){
@@ -94,21 +105,22 @@ router.get('/:handle', function(req, res, next) {
     };
     var taskssend;
     try {
-      model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      model.sequelize.query('SELECT * FROM "groupsusers" INNER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle WHERE "Tasks".grouphandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(tasks => {
         taskssend = tasks;
+        console.log(tasks);
     //    res.render('test', {user:users[0]});
           model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(users => {
             params = {
               handle: req.user.handle
             }
-            model.sequelize.query('SELECT * FROM "groupsusers" INNER JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+            model.sequelize.query('SELECT * FROM "groupsusers" WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
             .then(groups => {
               params = {
                 handle: req.params.handle
               }
-              model.sequelize.query('SELECT * FROM "groupsusers" INNER JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.grouphandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+              model.sequelize.query('SELECT * FROM "groupsusers" WHERE groupsusers.grouphandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
               .then(members => {
 
                 model.sequelize.query('SELECT * FROM "Users" WHERE "Users".grouporuser = \'1\'', { bind: params, type: model.sequelize.QueryTypes.SELECT})

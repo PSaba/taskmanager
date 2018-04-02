@@ -9,10 +9,15 @@ var model = require('../models/index');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if(req.user){
-    res.redirect('/' + req.user.handle);
+    res.redirect('/users/prof/' + req.user.handle);
   } else{
     res.redirect('/users/loginpage');
   }
+});
+
+router.get('/trytest', function(req, res, next) {
+  res.status(200);
+  res.end();
 });
 
 router.get('/seetasks', function(req, res){

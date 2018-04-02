@@ -38,6 +38,7 @@ router.get('/seeall/personal/:handle/', function(req, res){
       .then(users => {
         console.log(users);
       })
+      res.status(201);
     var socket = io.instance();
     socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
     socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
@@ -48,6 +49,7 @@ router.get('/seeall/personal/:handle/', function(req, res){
 router.post('/new/group/:handle', function(req, res){
   var params = {
       name: req.body.message,
+      person: "NULL",
       grouphandle: req.params.handle,
       completed: false,
       duetime: req.body.duetime,
@@ -55,7 +57,7 @@ router.post('/new/group/:handle', function(req, res){
       createdAt: new Date(),
       updatedAt: new Date()
     }
-    model.sequelize.query('INSERT INTO "Tasks" ("name", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+    model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
     .then(users => {
       console.log(users);
     })
@@ -75,7 +77,8 @@ router.get('/complete/:id', function(req, res){
     .then(users => {
       console.log(users);
     })
-    res.redirect('/' + req.params.handle);
+    res.status(200);
+    res.redirect('/');
 });
 
 router.post('/assign/:id', function(req, res){

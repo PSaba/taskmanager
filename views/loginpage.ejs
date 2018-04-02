@@ -14,9 +14,9 @@
     <form method="POST" action="/users/loggedin">
     <div class="form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary">
         <h2>Login</h2>
-        <% if(typeof error !== 'undefined'){ %>
+        <% if(typeof err !== 'undefined'){ %>
 			<div>
-				<h2 style="color:red;"><%= error %></h2>
+				<h2 style="color:red;"><%= err %></h2>
 			</div>
 		<% } %>
         <br>

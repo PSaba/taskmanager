@@ -10,12 +10,12 @@ router.get('/prof/:handle', function(req, res ) {
     handle: req.params.handle
     };
     try {
-      model.sequelize.query('SELECT * FROM "groupsusers" FULL OUTER JOIN "Tasks" on "groupsusers".userhandle = "Tasks".person WHERE "Tasks".person LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      model.sequelize.query('SELECT * FROM "Tasks" WHERE "Tasks".person LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(tasks => {
     //    res.render('test', {user:users[0]});
           model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(users => {
-            model.sequelize.query('SELECT * FROM "groupsusers" FULL JOIN "Users" on "groupsusers".userhandle = "Users".handle WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+            model.sequelize.query('SELECT * FROM "groupsusers" WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
             .then(groups => {
               model.sequelize.query('SELECT * FROM "Users" WHERE "Users".grouporuser = \'1\'', { bind: params, type: model.sequelize.QueryTypes.SELECT})
               .then(allgroups => {
@@ -30,6 +30,29 @@ router.get('/prof/:handle', function(req, res ) {
   } else {
     res.redirect('/users/loginpage');
   }
+});
+
+router.post('/prof/edit/:handle', function(req, res){
+  var params = {
+    handle: req.params.handle
+  };
+  model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+  .then(users => {
+    if(req.body.name != ""){
+      params = {
+        name: req.body.name
+      }
+      model.sequelize.query('UPDATE "Users" SET "Users".name = $name', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      .then(allgroups => {})
+    }
+    if(req.body.password != ""){
+      params = {
+        password: req.body.password
+      }
+      model.sequelize.query('UPDATE "Users" SET "Users".password = $password', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      .then(allgroups => {})
+    }
+  })
 });
 
 router.get('/login', function(req, res){
@@ -74,10 +97,20 @@ router.post('/loggedin', function(req, res){
 
 router.post('/signedup', function(req, res){
   if(req.body.password1 != req.body.password2){
+    res.status(500);
     res.render('loginpage', {err: "Your passwords don't match"});
   } else {
-    try {
-      var params = {
+    var params = {
+      handle: req.body.username.trim(),
+    }
+    model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+    .then(users => {
+      if(users === []){
+        console.log(users)
+        res.render('loginpage', {err: "Handle already in use"});
+      } else {
+        try {
+        params = {
         name: req.body.name.trim(),
         handle: req.body.username.trim(),
         password: req.body.password1.trim(),
@@ -101,13 +134,23 @@ router.post('/signedup', function(req, res){
       .then(users => {
         console.log(users);
       })
+      res.status(200);
       res.redirect('/users/prof/'+ req.body.username.trim());
     } catch (error) {
+      res.status(500);
       res.render('loginpage', {err: "Something happened"});
     }
+      }
+    });
+
+
     
   }
   
+  
+  
+
+    
 });
 
 router.post('/addcategory/:handle', function(req, res){
@@ -142,8 +185,10 @@ router.post('/addcategory/:handle', function(req, res){
     .then(users => {
       console.log(users);
     })
-    res.end();
+    res.status(200);
+    res.redirect('/users/prof/'+ req.params.handle);
   } else {
+    res.status(500);
     res.redirect('/users/loginpage');
   }
 });
@@ -172,13 +217,16 @@ router.post('/joingroup/', function(req, res){
             })
           }
         })
-        res.end();
+        res.status(200);
+        res.redirect('/users/prof/'+ req.params.handle);
       }
-      res.end();
+      res.status(500);
+      res.redirect('/users/loginpage');
     })
 
    
   } else {
+    res.status(500);
     res.redirect('/users/loginpage');
   }
 });
@@ -194,8 +242,10 @@ router.delete('/deletecategory/:handle', function(req, res){
     model.sequelize.query('DELETE FROM "Users" WHERE "Users".handle LIKE $handle and "Users".category LIKE $category', { bind: params, type: model.sequelize.QueryTypes.SELECT})
     .then(users => {
     })
-    res.end();
+    res.status(200);
+    res.redirect('/users/prof/'+ req.params.handle);
   } else {
+    res.status(500);
     res.redirect('/users/loginpage');
   }
 });
