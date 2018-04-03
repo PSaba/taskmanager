@@ -14,6 +14,7 @@ router.post('/new', function(req, res){
     model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
     .then(users => {
       if(users === []){
+        res.status(500);
         res.render('loginpage', {err: "Handle already in use"});
       } else {
         params = {
@@ -41,39 +42,62 @@ router.post('/new', function(req, res){
           console.log(users);
         })
       }
-      res.redirect('/groups/' + req.body.username);
       }
     
   })
-}
+  res.status(200);
+      res.redirect('/groups/' + req.body.username);
+} else {
+  res.status(500);
     res.send("Passwords don't match");
+}
+    
 });
 
 router.get('/join/:handle', function(req, res){
     if(req.user){
       var params = {
         userhandle: req.user.handle,
-        grouphandle: req.params.handle
+        password: req.body.password
       }
-      model.sequelize.query('SELECT * FROM "groupsusers" WHERE "groupsusers".userhandle LIKE $userhandle AND "groupsusers".grouphandle LIKE $grouphandle', {bind: params, type: model.sequelize.QueryTypes.SELECT})
-      .then(groups => {
-        if(groups[0] == undefined){
-            params = {
-               userhandle: req.user.handle,
-               grouphandle: req.params.handle,
-               createdAt: new Date(),
-               updatedAt: new Date()
+      model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $userhandle AND "Users".password LIKE $password', {bind: params, type: model.sequelize.QueryTypes.SELECT})
+      .then(users => {
+        if(groups[0] === undefined){
+          params = {
+            userhandle: req.user.handle,
+            grouphandle: req.params.handle
+          }
+          model.sequelize.query('SELECT * FROM "groupsusers" WHERE "groupsusers".userhandle LIKE $userhandle AND "groupsusers".grouphandle LIKE $grouphandle', {bind: params, type: model.sequelize.QueryTypes.SELECT})
+          .then(groups => {
+            if(groups[0] == undefined){
+                params = {
+                  userhandle: req.user.handle,
+                  grouphandle: req.params.handle,
+                  createdAt: new Date(),
+                  updatedAt: new Date()
+                }
+                model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+                .then(users => {
+                  console.log(users);
+                })
+            } else {
+              res.status(500);
+              res.send("already exists");
             }
-            model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-            .then(users => {
-              console.log(users);
-            })
+          })
         } else {
-          res.send("already exists");
+          res.status(500);
+          res.redirect('/users/loginpage')
         }
-      })
+
+
+
+      });
+
+      res.status(200);
     }
     else{
+      res.status(500);
       res.redirect('/users/loginpage')
     }
     
@@ -84,10 +108,11 @@ router.get('/leave/:grouphandle', function(req, res){
         userhandle: req.user.handle,
         grouphandle: req.params.grouphandle
       }
-      model.sequelize.query('DELETE FROM "groupusers" WHERE userhandle = $userhandle AND grouphandle = $grouphandle', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      model.sequelize.query('DELETE FROM "groupsusers" WHERE userhandle = $userhandle AND grouphandle = $grouphandle', { bind: params, type: model.sequelize.QueryTypes.ACTION})
       .then(users => {
         console.log(users);
       })
+      res.status(200);
       res.redirect('/');
 });
 

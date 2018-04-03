@@ -48,6 +48,7 @@ describe("Test", function() {
             .end(function(err, res) {
                 console.log(err);
                 chai.expect(res).to.have.status(200);
+                chai.expect(res).to.have.message();
             });
             done();
     });
@@ -122,19 +123,17 @@ describe("Tasks personal", function() {
 describe("Categories", function(){
     it('new category', function(){
             agent
-            .post('/session')
-            .send({'message': 'new task that does something',
-                 'category': 'General',
-                 'duetime': Date.now()})
+            .post('/users/addcategory/newname')
+            .send({'category': 'newcato',})
             .then(function (res) {
                 expect(res).to.have.status(200);
             });
     });
     it('new task', function() {
         agent
-        .post('/session')
+        .post('/tasks/new/newname')
         .send({'message': 'new task that does something',
-             'category': 'General',
+             'category': 'newcato',
              'duetime': Date.now()})
         .then(function (res) {
             expect(res).to.have.status(200);
@@ -142,6 +141,51 @@ describe("Categories", function(){
     });
 })
 
-
-
-// agent.close();
+describe("Groups", function(){
+    it('new group', function(){
+            agent
+            .post('/groups/new/')
+            .send({
+                'name': 'newgroup',
+                'username': 'newgroup',
+                'password1': 'soso',
+                'password2': 'soso'
+              })
+            .then(function (res) {
+                expect(res).to.have.status(200);
+            });
+    });
+    it('new task', function() {
+        agent
+        .post('/tasks/new/group/newgroup')
+        .send({'message': 'new task that does something',
+             'category': 'General',
+             'duetime': Date.now()})
+        .then(function (res) {
+            expect(res).to.have.status(200);
+        });
+    });
+    it('assign task', function() {
+        agent
+        .post('/tasks/assign/1')
+        .send({'person': 'newname'})
+        .then(function (res) {
+            expect(res).to.have.status(200);
+        });
+    });
+    it('leave group', function() {
+        agent
+        .get('/groups/leave/newgroup')
+        .then(function (res) {
+            expect(res).to.have.status(200);
+        });
+    });
+    it('join group', function(){
+        agent
+        .post('/groups/join/newgroup')
+        .send({'person': 'newname'})
+        .then(function (res) {
+            expect(res).to.have.status(200);
+        });
+    });
+})

@@ -69,7 +69,10 @@ router.post('/new/group/:handle', function(req, res){
 });
 
 router.get('/complete/:id', function(req, res){
-    var params = {
+  try {
+    if(typeof req.params.id === "number"){
+      console.log("type is number")
+      var params = {
         id: req.params.id,
         completed: true
     }
@@ -78,7 +81,14 @@ router.get('/complete/:id', function(req, res){
       console.log(users);
     })
     res.status(200);
+    } else {
+      res.status(500);
+    }
     res.redirect('/');
+  } catch (error) {
+    res.status(500);
+    res.redirect('/');
+  }
 });
 
 router.post('/assign/:id', function(req, res){
