@@ -42,14 +42,14 @@ router.post('/prof/edit/:handle', function(req, res){
       params = {
         name: req.body.name
       }
-      model.sequelize.query('UPDATE "Users" SET "Users".name = $name', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      model.sequelize.query('UPDATE "Users" SET name = $name', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(allgroups => {})
     }
     if(req.body.password != ""){
       params = {
         password: req.body.password
       }
-      model.sequelize.query('UPDATE "Users" SET "Users".password = $password', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      model.sequelize.query('UPDATE "Users" SET password = $password', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(allgroups => {})
     }
   })
@@ -218,7 +218,7 @@ router.post('/joingroup/', function(req, res){
           }
         })
         res.status(200);
-        res.redirect('/users/prof/'+ req.params.handle);
+        res.redirect('/users/prof/'+ req.body.handle);
       }
       res.status(500);
       res.redirect('/users/loginpage');
@@ -232,7 +232,7 @@ router.post('/joingroup/', function(req, res){
 });
 
 
-router.delete('/deletecategory/:handle', function(req, res){
+router.post('/deletecategory/:handle', function(req, res){
   if(req.user){
     var usertype = true;
     var params = {

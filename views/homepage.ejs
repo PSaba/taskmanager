@@ -26,7 +26,7 @@
                   New Group
                 </button>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newcat">
-                    New Category
+                  New Category
               </button>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delcat">
                   Delete Category
@@ -55,8 +55,8 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form method ="POST" action = "users/prof/edit/<%=requser.handle%>">
-                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method ="POST" action = "users/prof/edit/<%=requser.handle%>">
+                    <form method ="POST" action = "edit/<%=requser.handle%>">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method ="POST" action = "edit/<%=requser.handle%>">
                           <br>
                               <input type="text" class="form-control mb-3" name="name" placeholder="<%=user.name%>">
                               <input type="password" class="form-control mb-3" name="password" placeholder="<%=user.password%>">
@@ -87,15 +87,15 @@
                       <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/joingroup/">
                           <br>
                             <select class="form-control" name="category" id="Categories">
-                              <input type="text" class="form-control mb-3" name="password" placeholder="Password">
                               <% allgroups.forEach(function(element){ %>
                                 <option value='<%=element.handle%>'><%=element.handle%></option>
                               <% })  %>
                               </select>
+                              <input type="text" class="form-control mb-3" name="password" placeholder="Password">
                               <div class="modal-footer" >
                                   <div class="col">
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                          <input type="Submit" value="Delete Category" class="btn float-right btn-lg btn-primary"></input>
+                                          <input type="Submit" value="Join Group" class="btn float-right btn-lg btn-primary"></input>
                                   </div>
                               </div>
                               </div>
@@ -117,8 +117,8 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form method ="DELETE" action = "/users/deletecategory/<%=user[0].handle%>">
-                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="DELETE" action = "/users/deletecategory/<%=user[0].handle%>">
+                    <form method ="POST" action = "/users/deletecategory/<%=user[0].handle%>">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/deletecategory/<%=user[0].handle%>">
                           <br>
                             <select class="form-control" name="category" id="Categories">
                               <% user.forEach(function(element){ %>
@@ -244,7 +244,7 @@
                         <h5><%=element.name%></h5> <br>
                         <%=element.category%>
                         @<%=element.grouphandle%>
-                        <a class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button"><%= element.duetime %></a>                            
+                        <a class="btn btn-success float-right" id="button-delete" href="/users/tasks/complete/<%=element.id%>" role="button"><%= element.duetime %></a>                            
                     </li>
                     <%}%>
                 <% }); %>
@@ -262,6 +262,11 @@
             console.log(msg.message);
             $('#messages').prepend('<li class="list-group-item d-inline-block"><h5 class="d-inline-block">'+ msg.message +'</h5>@'+ msg.user.handle + '<a class="btn btn-success float-right" href="/users/tasks/complete/' + msg.id + '" role=\"button\">'+ msg.time + '</a></li>');
             });
+          
+          $('#button-delete').on('click', function(e){
+            $(this).closest('li').remove();
+          });	
+          
       });
       
       

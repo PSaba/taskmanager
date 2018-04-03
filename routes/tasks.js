@@ -25,7 +25,7 @@ router.get('/seeall/personal/:handle/', function(req, res){
 
   router.post('/new/:handle', function(req, res){
     var params = {
-        name: req.body.message,
+        name: req.body.message.substring(0, 255),
         person: req.user.handle,
         grouphandle: req.params.handle,
         completed: false,
@@ -70,7 +70,7 @@ router.post('/new/group/:handle', function(req, res){
 
 router.get('/complete/:id', function(req, res){
   try {
-    if(typeof req.params.id === "number"){
+   //if(typeof req.params.id === "number"){
       console.log("type is number")
       var params = {
         id: req.params.id,
@@ -81,10 +81,10 @@ router.get('/complete/:id', function(req, res){
       console.log(users);
     })
     res.status(200);
-    } else {
-      res.status(500);
-    }
-    res.redirect('/');
+    //} else {
+    //  res.status(500);
+   // }
+   // res.redirect('/');
   } catch (error) {
     res.status(500);
     res.redirect('/');
@@ -132,7 +132,7 @@ router.post('/assign/:id', function(req, res){
   socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
   socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
 
-  res.redirect('/' + req.params.handle);
+  res.redirect('/' + req.user.handle);
 });
 
 

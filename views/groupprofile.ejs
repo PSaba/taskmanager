@@ -58,15 +58,15 @@
                       <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/joingroup/">
                           <br>
                             <select class="form-control" name="category" id="Categories">
-                              <input type="text" class="form-control mb-3" name="password" placeholder="Password">
                               <% allgroups.forEach(function(element){ %>
                                 <option value='<%=element.handle%>'><%=element.handle%></option>
                               <% })  %>
                               </select>
+                              <input type="text" class="form-control mb-3" name="password" placeholder="Password">
                               <div class="modal-footer" >
                                   <div class="col">
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                          <input type="Submit" value="Delete Category" class="btn float-right btn-lg btn-primary"></input>
+                                          <input type="Submit" value="Join Group" class="btn float-right btn-lg btn-primary"></input>
                                   </div>
                               </div>
                               </div>
@@ -88,8 +88,8 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    <form method ="DELETE" action = "/users/deletecategory/<%=user[0].handle%>">
-                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="DELETE" action = "/users/deletecategory/<%=user[0].handle%>">
+                    <form method ="POST" action = "/users/deletecategory/<%=user[0].handle%>">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/deletecategory/<%=user[0].handle%>">
                           <br>
                             <select class="form-control" name="category" id="Categories">
                               <% user.forEach(function(element){ %>
@@ -229,7 +229,7 @@
                         <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/assign/<%=element.id%>">
                           <select class="form-control" name="category" id="Categories">
                               <% members.forEach(function(element){ %>
-                                <option value='<%=element.handle%>'><%=element.name%></option>
+                                <option value='<%=element.handle%>'><%=element.userhandle%></option>
                               <% })  %>
                               </select>
                               <button type="submit" id="btn-sending" class="btn button-send float-right btn-secondary">Assign</button>
@@ -250,7 +250,7 @@
                         <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/assign/<%=element.id%>">
                           <select class="form-control" name="category" id="Categories">
                               <% members.forEach(function(element){ %>
-                                <option value='<%=element.handle%>'><%=element.name%></option>
+                                <option value='<%=element.handle%>'><%=element.userhandle%></option>
                               <% })  %>
                               </select>
                         </form>
