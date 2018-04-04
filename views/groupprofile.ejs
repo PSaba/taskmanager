@@ -31,7 +31,7 @@
                   Join Group
               </button>
               <li class="nav-item active">
-                  <a class="nav-link" href = "/groups/leave/<%=user.handle%>">Leave Group</a>
+                  <a class="nav-link" href = "/groups/leave/<%=user[0].handle%>">Leave Group</a>
                 </li>
               <%groups.forEach(function(element){ %>
               <li class="nav-item active">
@@ -155,7 +155,7 @@
                 </div>
                 <div class="modal-body">
                     <form method ="POST" action = "/groups/new">
-                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/signedup">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/groups/new">
                           <br>
                               <input type="text" class="form-control mb-3" name="name" placeholder="Group name">
                               <input type="text" class="form-control mb-3" name="username" placeholder="Handle: NOTE THIS CANNOT BE CHANGED">
@@ -175,6 +175,11 @@
             </div>
           </div>
     <div class="container">
+        <% if(typeof err !== 'undefined'){ %>
+          <div>
+            <h2 style="color:red;"><%= err %></h2>
+          </div>
+        <% } %>
       <div class = "row">
         <div class = "col-md-4 name-contain ">
           <div class="card bg-light mt-5 border-top rounded" style="border-top: solid; border-top-width: 30px; border-top-color:#00B7FF; ">
@@ -222,14 +227,14 @@
                 <% tasks.forEach(function(element){ %>
                     <%if( !element.completed){%>
                       <li class="list-group-item d-inline-block">
-                          <h5><%=element.name%></h5> <br>
+                          <h5><%=element.name%></h5><br>
                           <%=element.category%>
                           @<%=element.userhandle%>
-                          <a class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button"><%= element.duetime %></a>                            
+                          <a id="button-delete" class="btn btn-success float-right" href="/users/tasks/complete/<%=element.id%>" role="button"><%= element.duetime %></a>                            
                         <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/assign/<%=element.id%>">
                           <select class="form-control" name="category" id="Categories">
                               <% members.forEach(function(element){ %>
-                                <option value='<%=element.handle%>'><%=element.userhandle%></option>
+                                <option value='<%=element.userhandle%>'><%=element.userhandle%></option>
                               <% })  %>
                               </select>
                               <button type="submit" id="btn-sending" class="btn button-send float-right btn-secondary">Assign</button>
@@ -261,7 +266,6 @@
         </div>
       </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
     <script>
        	$(function(){
           var socket = io();
@@ -270,6 +274,9 @@
             console.log(msg.message);
             $('#messages').prepend('<li class="list-group-item d-inline-block"><h5 class="d-inline-block">'+ msg.message +'</h5>@'+ msg.user.handle + '<a class="btn btn-success float-right" href="/users/tasks/complete/' + msg.id + '" role=\"button\">'+ msg.time + '</a></li>');
         });
+        $('#button-delete').on('click', function(e){
+            $(this).closest('li').remove();
+          });	
       });
       
       

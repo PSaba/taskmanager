@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Sequelize = require('sequelize');
 var model = require('../models/index');
+var io = require('../io');
 
 
 
@@ -13,19 +14,19 @@ router.post('/new', function(req, res){
     }
     model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
     .then(users => {
-      if(users === []){
-        res.status(500);
-        res.render('loginpage', {err: "Handle already in use"});
-      } else {
+      // if(users !== []){
+      //   //res.status(200);
+      //   res.render('loginpage', {err: "Handle already in use"});
+      // } else {
         params = {
         name: req.body.name,
         handle: req.body.username,
         password: req.body.password1,
         category: "General",
-        grouporuser: true,
+        grouporuser: '1',
         createdAt: new Date(),
         updatedAt: new Date()
-      }
+     }
       model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
       .then(users => {
         console.log(users);
@@ -42,14 +43,18 @@ router.post('/new', function(req, res){
           console.log(users);
         })
       }
-      }
+      //}
     
   })
   res.status(200);
-      res.redirect('/groups/' + req.body.username);
+  res.redirect('/groups/' + req.body.username);
 } else {
-  res.status(500);
-    res.send("Passwords don't match");
+  res.status(200);
+  if(req.user){
+    res.render('homepage' , {err: "Passwords are not matching"});
+  } else {
+    res.render('loginpage', {err: "Not logged in"});
+  }
 }
     
 });
@@ -62,14 +67,14 @@ router.get('/join/:handle', function(req, res){
       }
       model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $userhandle AND "Users".password LIKE $password', {bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(users => {
-        if(groups[0] === undefined){
+        // if(groups === []){
           params = {
             userhandle: req.user.handle,
             grouphandle: req.params.handle
           }
           model.sequelize.query('SELECT * FROM "groupsusers" WHERE "groupsusers".userhandle LIKE $userhandle AND "groupsusers".grouphandle LIKE $grouphandle', {bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(groups => {
-            if(groups[0] == undefined){
+            // if(groups === []){
                 params = {
                   userhandle: req.user.handle,
                   grouphandle: req.params.handle,
@@ -80,21 +85,22 @@ router.get('/join/:handle', function(req, res){
                 .then(users => {
                   console.log(users);
                 })
-            } else {
-              res.status(500);
-              res.send("already exists");
-            }
+            // } else {
+            //   res.status(200);
+            //   res.send("already exists");
+            // }
           })
-        } else {
-          res.status(500);
-          res.redirect('/users/loginpage')
-        }
+        // } else {
+        //   res.status(200);
+        //   res.redirect('/users/loginpage')
+        // }
 
 
 
       });
 
       res.status(200);
+      res.redirect('/groups/' + req.params.handle);
     }
     else{
       res.status(500);
@@ -125,18 +131,20 @@ router.post('/seeall', function(req, res){
 
 router.get('/:handle', function(req, res, next) {
   if(req.user){
+    io.login();
     var params = {
-    handle: req.params.handle
+    handle: req.params.handle.trim()
     };
+    console.log("handle");
+    console.log(req.params.handle.trim());
     var taskssend;
     try {
       model.sequelize.query('SELECT * FROM "groupsusers" INNER JOIN "Tasks" on "groupsusers".grouphandle = "Tasks".grouphandle WHERE "Tasks".grouphandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(tasks => {
-        taskssend = tasks;
-        console.log(tasks);
-    //    res.render('test', {user:users[0]});
           model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(users => {
+            console.log("users");
+            console.log(users);
             params = {
               handle: req.user.handle
             }
@@ -154,10 +162,10 @@ router.get('/:handle', function(req, res, next) {
                 })
               })
             })
-          })
+        })
       })
     } catch (error) {
-      res.redirect('/users/loginpage');
+      res.redirect('/users/prof/' + req.user.handle);
     }
     
   } else {

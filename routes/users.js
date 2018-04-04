@@ -6,6 +6,7 @@ var io = require('../io');
 
 router.get('/prof/:handle', function(req, res ) {
   if(req.user){
+    io.login();
     var params = {
     handle: req.params.handle
     };
@@ -74,30 +75,34 @@ router.post('/loggedin', function(req, res){
     name: req.body.username.trim(),
     password: req.body.password.trim()
   }
-  model.sequelize.query('SELECT * FROM "Users" WHERE name LIKE $name and password LIKE $password', {bind: params, type: model.sequelize.QueryTypes.SELECT})
+  try {
+    model.sequelize.query('SELECT * FROM "Users" WHERE name LIKE $name and password LIKE $password', {bind: params, type: model.sequelize.QueryTypes.SELECT})
    .then((results) => {
-     if(results.rowCount === 0){
-       res.render('/users/loginpage', {error: 'Something is messed up'});
-     } else{
+    //  if(results.rowCount === 0){
+    //    res.render('/users/loginpage', {error: 'Something is messed up'});
+    //  } else{
       req.user = results[0];
-      delete req.user.password; // delete the password from the session
+     // delete req.user.password; // delete the password from the session
       req.session.user = results[0];
-      name = results[0].name;
       io.login();
       res.redirect('/users/prof/' +results[0].handle);
       //res.redirect('/');
-     }
+    //  }
 
    })
    .catch((err) =>{
      console.log('error', err);
      res.render('loginpage', {err: "Something happened"});
    });
+  } catch (error) {
+    res.render('loginpage', {err: "Something happened"});
+  }
+  
 });
 
 router.post('/signedup', function(req, res){
-  if(req.body.password1 != req.body.password2){
-    res.status(500);
+  if(req.body.password1.trim() != req.body.password2.trim()){
+    res.status(200);
     res.render('loginpage', {err: "Your passwords don't match"});
   } else {
     var params = {
@@ -135,9 +140,9 @@ router.post('/signedup', function(req, res){
         console.log(users);
       })
       res.status(200);
-      res.redirect('/users/prof/'+ req.body.username.trim());
+      res.redirect('/'+ req.body.username.trim());
     } catch (error) {
-      res.status(500);
+      res.status(200);
       res.render('loginpage', {err: "Something happened"});
     }
       }

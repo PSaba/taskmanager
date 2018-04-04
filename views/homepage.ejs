@@ -58,8 +58,8 @@
                     <form method ="POST" action = "edit/<%=requser.handle%>">
                       <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method ="POST" action = "edit/<%=requser.handle%>">
                           <br>
-                              <input type="text" class="form-control mb-3" name="name" placeholder="<%=user.name%>">
-                              <input type="password" class="form-control mb-3" name="password" placeholder="<%=user.password%>">
+                              <input type="text" class="form-control mb-3" name="name" placeholder="<%=requser.name%>">
+                              <input type="password" class="form-control mb-3" name="password" placeholder="<%=requser.password%>">
                                 <div class="modal-footer" >
                                   <div class="col">
                                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -181,7 +181,7 @@
                 </div>
                 <div class="modal-body">
                     <form method ="POST" action = "/groups/new">
-                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/signedup">
+                      <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/groups/new">
                           <br>
                               <input type="text" class="form-control mb-3" name="name" placeholder="Group name">
                               <input type="text" class="form-control mb-3" name="username" placeholder="Handle: NOTE THIS CANNOT BE CHANGED">
@@ -201,6 +201,11 @@
             </div>
           </div>
     <div class="container">
+        <% if(typeof err !== 'undefined'){ %>
+          <div>
+            <h2 style="color:red;"><%= err %></h2>
+          </div>
+        <% } %>
       <div class = "row">
         <div class = "col-md-4 name-contain ">
           <div class="card bg-light mt-5 border-top rounded" style="border-top: solid; border-top-width: 30px; border-top-color:#00B7FF; ">
@@ -210,7 +215,6 @@
          </div>
         </div>
         <div class = "col-md-8">
-
           <div class="card bg-primary mt-3">
             <form class="form-group" id="twitter-post" method="POST" action="/users/tasks/new/<%=user[0].handle%>">
                 <!-- <textarea name="message" type="text" onkeydown="limitText(this.message,this.countdown,250);" onkeyup='limitText(this.form.message,this.form.countdown,250);' id="post_area" class="form-control sending" placeholder="Type in here!"></textarea>
@@ -252,7 +256,6 @@
         </div>
       </div>
     </div>
-    <script src="/socket.io/socket.io.js"></script>
     <script>
        	$(function(){
           var socket = io();
@@ -266,7 +269,7 @@
           $('#button-delete').on('click', function(e){
             $(this).closest('li').remove();
           });	
-          
+
       });
       
       

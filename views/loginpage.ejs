@@ -20,7 +20,7 @@
 			</div>
 		<% } %>
         <br>
-            <input type="text" class="form-control" name="username" placeholder="Username">
+            <input type="text" class="form-control" name="username" placeholder="Your Name">
             <br>
             <input type="password" class="form-control" name="password" placeholder="Password">
             <br> <br>
@@ -72,8 +72,11 @@
 <script>
     $(function(){
         $('#login-open-button').on('click', function () {
-            $('#loginmodal').modal('toggle');
-          })
+            $('#newuser').modal('show')
+        })
+        // $('#login-open-button').on('click', function () {
+        //     $('#loginmodal').modal('toggle');
+        //   })
       });
       function closeform(){
           $("#loginmodal").toggle();

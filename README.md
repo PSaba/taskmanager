@@ -11,8 +11,12 @@ A way to organize tasks between many different groups of people
   ```node_modules/.bin/sequelize db:migrate```
 6. Then, launch the website by running this command:
   ```npm start```
-7. If you want to test instead, run:
+7. If you want to test backend instead, run:
   ```npm test```
+8. If you want to test frontent instead, open two tabs that are both in the correct directory. First run:
+  ```npm start```
+  Then immediately after run:
+  ```testcafe all testing```
 
 # Pages
 

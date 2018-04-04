@@ -61,8 +61,8 @@
     </role>
     <schema id="12" parent="4" name="public">
       <ObjectId>2200</ObjectId>
-      <IntrospectionTimestamp>2018-04-01.19:04:24.882</IntrospectionTimestamp>
-      <IntrospectionStateNumber>952</IntrospectionStateNumber>
+      <IntrospectionTimestamp>2018-04-03.18:48:49.305</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1261</IntrospectionStateNumber>
       <Current>1</Current>
       <Visible>1</Visible>
     </schema>
@@ -90,24 +90,24 @@
       <IntrospectionStateNumber>503</IntrospectionStateNumber>
     </schema>
     <sequence id="18" parent="12" name="Tasks_id_seq">
-      <ObjectId>24940</ObjectId>
-      <StateNumber>950</StateNumber>
+      <ObjectId>24973</ObjectId>
+      <StateNumber>1259</StateNumber>
       <SequenceIdentity>1..2147483647</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
       <CacheSize>1</CacheSize>
       <DataType>integer</DataType>
     </sequence>
     <sequence id="19" parent="12" name="Users_id_seq">
-      <ObjectId>24929</ObjectId>
-      <StateNumber>948</StateNumber>
+      <ObjectId>24962</ObjectId>
+      <StateNumber>1257</StateNumber>
       <SequenceIdentity>1..2147483647</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
       <CacheSize>1</CacheSize>
       <DataType>integer</DataType>
     </sequence>
     <sequence id="20" parent="12" name="groupsusers_id_seq">
-      <ObjectId>24951</ObjectId>
-      <StateNumber>952</StateNumber>
+      <ObjectId>24984</ObjectId>
+      <StateNumber>1261</StateNumber>
       <SequenceIdentity>1..2147483647</SequenceIdentity>
       <BelongsToColumn>1</BelongsToColumn>
       <CacheSize>1</CacheSize>
@@ -118,16 +118,16 @@
       <StateNumber>565</StateNumber>
     </table>
     <table id="22" parent="12" name="Tasks">
-      <ObjectId>24942</ObjectId>
-      <StateNumber>950</StateNumber>
+      <ObjectId>24975</ObjectId>
+      <StateNumber>1259</StateNumber>
     </table>
     <table id="23" parent="12" name="Users">
-      <ObjectId>24931</ObjectId>
-      <StateNumber>948</StateNumber>
+      <ObjectId>24964</ObjectId>
+      <StateNumber>1257</StateNumber>
     </table>
     <table id="24" parent="12" name="groupsusers">
-      <ObjectId>24953</ObjectId>
-      <StateNumber>952</StateNumber>
+      <ObjectId>24986</ObjectId>
+      <StateNumber>1261</StateNumber>
     </table>
     <column id="25" parent="21" name="name">
       <Position>1</Position>
@@ -151,7 +151,7 @@
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <DefaultExpression>nextval(&apos;&quot;Tasks_id_seq&quot;&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
       <SequenceName>Tasks_id_seq</SequenceName>
@@ -160,64 +160,64 @@
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="30" parent="22" name="person">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="31" parent="22" name="grouphandle">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="32" parent="22" name="completed">
       <Position>5</Position>
       <DataType>boolean|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>16</TypeId>
     </column>
     <column id="33" parent="22" name="category">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="34" parent="22" name="duetime">
       <Position>7</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <column id="35" parent="22" name="createdAt">
       <Position>8</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <column id="36" parent="22" name="updatedAt">
       <Position>9</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>950</StateNumber>
+      <StateNumber>1259</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <index id="37" parent="22" name="Tasks_pkey">
-      <ObjectId>24949</ObjectId>
+      <ObjectId>24982</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
     <key id="38" parent="22" name="Tasks_pkey">
-      <ObjectId>24950</ObjectId>
+      <ObjectId>24983</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>Tasks_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
@@ -226,7 +226,7 @@
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <DefaultExpression>nextval(&apos;&quot;Users_id_seq&quot;&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
       <SequenceName>Users_id_seq</SequenceName>
@@ -234,54 +234,54 @@
     <column id="40" parent="23" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="41" parent="23" name="handle">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="42" parent="23" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="43" parent="23" name="category">
       <Position>5</Position>
       <DataType>varchar(255)|0</DataType>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="44" parent="23" name="grouporuser">
       <Position>6</Position>
       <DataType>boolean|0</DataType>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>16</TypeId>
     </column>
     <column id="45" parent="23" name="createdAt">
       <Position>7</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <column id="46" parent="23" name="updatedAt">
       <Position>8</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>948</StateNumber>
+      <StateNumber>1257</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <index id="47" parent="23" name="Users_pkey">
-      <ObjectId>24938</ObjectId>
+      <ObjectId>24971</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
     <key id="48" parent="23" name="Users_pkey">
-      <ObjectId>24939</ObjectId>
+      <ObjectId>24972</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>Users_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
@@ -290,7 +290,7 @@
       <Position>1</Position>
       <DataType>integer|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>952</StateNumber>
+      <StateNumber>1261</StateNumber>
       <DefaultExpression>nextval(&apos;groupsusers_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>23</TypeId>
       <SequenceName>groupsusers_id_seq</SequenceName>
@@ -299,37 +299,37 @@
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>952</StateNumber>
+      <StateNumber>1261</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="51" parent="24" name="grouphandle">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>952</StateNumber>
+      <StateNumber>1261</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="52" parent="24" name="createdAt">
       <Position>4</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>952</StateNumber>
+      <StateNumber>1261</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <column id="53" parent="24" name="updatedAt">
       <Position>5</Position>
       <DataType>timestamp with time zone|0</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>952</StateNumber>
+      <StateNumber>1261</StateNumber>
       <TypeId>1184</TypeId>
     </column>
     <index id="54" parent="24" name="groupsusers_pkey">
-      <ObjectId>24960</ObjectId>
+      <ObjectId>24993</ObjectId>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
     </index>
     <key id="55" parent="24" name="groupsusers_pkey">
-      <ObjectId>24961</ObjectId>
+      <ObjectId>24994</ObjectId>
       <ColNames>id</ColNames>
       <UnderlyingIndexName>groupsusers_pkey</UnderlyingIndexName>
       <Primary>1</Primary>
