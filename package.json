@@ -25,6 +25,7 @@
     "sequelize-cli": "^4.0.0",
     "serve-favicon": "~2.4.5",
     "socket-tester": "^1.2.1",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "testcafe": "^0.19.1"
   }
 }

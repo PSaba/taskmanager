@@ -66,8 +66,8 @@ describe("Account usable", function() {
           })
             .end(function(err, res) {
                 chai.expect(res).to.have.status(200);
-                done();
             });
+        done();
     });
     it('new account bad', function(done){
         chai.request(app)
@@ -81,8 +81,8 @@ describe("Account usable", function() {
           })
             .end(function(err, res) {
                 //chai.expect(res).to.have.status(500);
-                done();
             });
+            done();
     });
     it('log in possible', function(){
         agent
