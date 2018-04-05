@@ -226,12 +226,12 @@ router.post('/joingroup/', function(req, res){
         }
         model.sequelize.query('SELECT * FROM "groupsusers" WHERE "groupsusers"."userhandle" LIKE $userhandle AND "groupsusers"."grouphandle" LIKE $grouphandle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
         .then(results => {
-          if(result[0] === undefined){
+         // if(result[0] === undefined){
               model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
             .then(users => {
               console.log(users);
             })
-          }
+        //  }
         })
         res.status(200);
         res.redirect('/groups/'+ req.body.handle);

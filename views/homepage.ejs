@@ -86,7 +86,7 @@
                     <form method ="POST" action = "/users/joingroup/">
                       <div class="blur-box form-group card text-center text-light mt-5 pb-5 pr-5 pl-5 pt-2 bg-secondary" method="POST" action = "/users/joingroup/">
                           <br>
-                            <select class="form-control" name="category" id="Categories">
+                            <select class="form-control" name="handle" id="handle">
                               <% allgroups.forEach(function(element){ %>
                                 <option value='<%=element.handle%>'><%=element.handle%></option>
                               <% })  %>
