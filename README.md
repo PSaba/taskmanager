@@ -33,6 +33,7 @@ A way to organize tasks between many different groups of people
 
     Then run, 
     ```npm test```
+    *Note* While running front-end there are 2 sets of tasks tests. Do not worry if 1 fails. This is due to the differences between browsers/systems.
 
 # Pages
 

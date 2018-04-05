@@ -1,7 +1,7 @@
 "@fixture setupwork";
 "@page http://localhost:3000/";
 
-"@test"["login"] = {
+"@test"["Login-good"] = {
     '1.Click input "username"': function() {
         var actionTarget = function() {
             return $(".form-control[name='username']").eq(0);
@@ -40,7 +40,7 @@
     }
 };
 
-"@test"["newsgroup"] = {
+"@test"["Group-new"] = {
     '1.Click button "New user"': function() {
         act.click("#newuserbutton");
     },
@@ -131,7 +131,7 @@
     }
 };
 
-"@test"["login bad"] = {
+"@test"["Login-bad"] = {
     '1.Type in input "username"': function() {
         var actionTarget = function() {
             return $(".form-control[name='username']").eq(0);
@@ -150,182 +150,12 @@
 };
 
 
-"@test"["addtask"] = {
-    '1.Click button "New user"': function() {
-        act.click("#newuserbutton");
-    },
-    '2.Type in input "name"': function() {
-        act.type(".form-control.mb-3[name='name']", "newname");
-    },
-    '3.Type in input "username"': function() {
-        act.type(".form-control.mb-3[name='username']", "newname");
-    },
-    '4.Click password input "password1"': function() {
-        act.click(".form-control.mb-3[name='password1']");
-    },
-    '5.Type in password input "password1"': function() {
-        act.type(".form-control.mb-3[name='password1']", "newthing");
-    },
-    '6.Type in password input "password2"': function() {
-        act.type(".form-control.mb-5[name='password2']", "newthing");
-    },
-    '7.Click submit button "Sign Up"': function() {
-        act.click("#submitnewuser");
-    },
-    '8.Type in input "username"': function() {
-        var actionTarget = function() {
-            return $(".form-control[name='username']").eq(0);
-        };
-        act.type(actionTarget, "newname");
-    },
-    '9.Type in password input "password"': function() {
-        act.type(".form-control[name='password']", "newname");
-    },
-    '10.Click submit button "Log in"': function() {
-        act.click("#submitlogin");
-    },
-    '11.Type in input "username"': function() {
-        var actionTarget = function() {
-            return $(".form-control[name='username']").eq(0);
-        };
-        act.type(actionTarget, "newname");
-    },
-    '12.Type in password input "password"': function() {
-        act.type(".form-control[name='password']", "n");
-    },
-    "13.Press key BACKSPACE": function() {
-        act.press("backspace");
-    },
-    '14.Type in password input "password"': function() {
-        act.type(".form-control[name='password']", "newthing");
-    },
-    '15.Click submit button "Log in"': function() {
-        act.click("#submitlogin");
-    },
-    '17.Type in text area "message"': function() {
-        act.type("#post_area", "newtaks");
-    },
-    "18.Press key BACKSPACE": function() {
-        act.press("backspace");
-    },
-    "19.Press key BACKSPACE": function() {
-        act.press("backspace");
-    },
-    '20.Type in text area "message"': function() {
-        act.type("#post_area", "skjsadsakd");
-    },
-    '21.Click select "category"': function() {
-        var actionTarget = function() {
-            return $("#twitter-post").find(".form-control[name='category']");
-        };
-        act.click(actionTarget);
-    },
-    "22.Click input": function() {
-        var actionTarget = function() {
-            return $(".form-group").find("[name='duetime']");
-        };
-        act.click(actionTarget);
-    },
-    "23.Click input": function() {
-        var actionTarget = function() {
-            return $(".form-group").find("[name='duetime']");
-        };
-        act.click(actionTarget);
-    },
-    '24.Click submit button "Add Task"': function() {
-        act.click("#btn-sending");
-    },
-    '26.Type in text area "message"': function() {
-        act.type("#post_area", "gvhbjdksgad");
-    },
-    "27.Click input": function() {
-        var actionTarget = function() {
-            return $(".form-group").find("[name='duetime']");
-        };
-        act.click(actionTarget);
-    },
-    "28.Press key combination 8+2+7+3+1+2+3": function() {
-        act.press("8+2+7+3+1+2+3");
-    },
-    '29.Click submit button "Add Task"': function() {
-        act.click("#btn-sending");
-    },
-};
-
-"@test"["complete task"] = {
-    '1.Click button "New user"': function() {
-        act.click("#newuserbutton");
-    },
-    '2.Click input "name"': function() {
-        act.click(".form-control.mb-3[name='name']");
-    },
-    '3.Type in input "name"': function() {
-        act.type(".form-control.mb-3[name='name']", "newthing");
-    },
-    '4.Type in input "username"': function() {
-        act.type(".form-control.mb-3[name='username']", "newthing");
-    },
-    '5.Type in password input "password1"': function() {
-        act.type(".form-control.mb-3[name='password1']", "newthing");
-    },
-    '6.Type in password input "password2"': function() {
-        act.type(".form-control.mb-5[name='password2']", "newthing");
-    },
-    "7.Click body": function() {
-        act.click("body");
-    },
-    '8.Click submit button "Sign Up"': function() {
-        act.click("#submitnewuser");
-    },
-    '9.Type in input "username"': function() {
-        var actionTarget = function() {
-            return $(".form-control[name='username']").eq(0);
-        };
-        act.type(actionTarget, "newthing");
-    },
-    '10.Type in password input "password"': function() {
-        act.type(".form-control[name='password']", "newthing");
-    },
-    '11.Click submit button "Log in"': function() {
-        act.click("#submitlogin");
-    },
-    '12.Type in text area "message"': function() {
-        act.type("#post_area", "bjhgjfgvhjuytf");
-    },
-    '13.Click select "category"': function() {
-        var actionTarget = function() {
-            return $("#twitter-post").find(".form-control[name='category']");
-        };
-        act.click(actionTarget);
-    },
-    "14.Click input": function() {
-        var actionTarget = function() {
-            return $(".form-group").find("[name='duetime']");
-        };
-        act.click(actionTarget);
-    },
-    "15.Click input": function() {
-        var actionTarget = function() {
-            return $(".form-group").find("[name='duetime']");
-        };
-        act.click(actionTarget);
-    },
-    "16.Press key combination 8+9+7": function() {
-        act.press("8+9+7");
-    },
-    "17.Press key combination 7+8": function() {
-        act.press("7+8");
-    },
-    "18.Press key 9": function() {
-        act.press("9");
-    },
-    '19.Click submit button "Add Task"': function() {
-        act.click("#btn-sending");
-    },
-};
 
 
-"@test"["add category"] = {
+
+
+
+"@test"["Category"] = {
     '1.Click button "New user"': function() {
         act.click("#newuserbutton");
     },
@@ -439,7 +269,7 @@
     },
 };
 
-"@test"["log out"] = {
+"@test"["Logout"] = {
     '1.Click input "username"': function() {
         var actionTarget = function() {
             return $(".form-control[name='username']").eq(0);
@@ -528,7 +358,7 @@
         act.click(actionTarget);
     },
     '27.Click select "category"': function() {
-        act.click("#Categories");
+        act.click("#handle");
     },
     '28.Click span "×"': function() {
         var actionTarget = function() {
@@ -577,7 +407,7 @@
     }
 };
 
-"@test"["bad task"] = {
+"@test"["Task-bad"] = {
     '1.Click button "New user"': function() {
         act.click("#newuserbutton");
     },
@@ -630,4 +460,277 @@
         act.click("#btn-sending");
     }
 };
+
+"@test"["Task-good b"] = {
+    '1.Click button "New user"': function() {
+        act.click("#newuserbutton");
+    },
+    '2.Type in input "name"': function() {
+        act.type(".form-control.mb-3[name='name']", "newname");
+    },
+    '3.Type in input "username"': function() {
+        act.type(".form-control.mb-3[name='username']", "newname");
+    },
+    '4.Click password input "password1"': function() {
+        act.click(".form-control.mb-3[name='password1']");
+    },
+    '5.Type in password input "password1"': function() {
+        act.type(".form-control.mb-3[name='password1']", "newthing");
+    },
+    '6.Type in password input "password2"': function() {
+        act.type(".form-control.mb-5[name='password2']", "newthing");
+    },
+    '7.Click submit button "Sign Up"': function() {
+        act.click("#submitnewuser");
+    },
+    '8.Type in input "username"': function() {
+        var actionTarget = function() {
+            return $(".form-control[name='username']").eq(0);
+        };
+        act.type(actionTarget, "newname");
+    },
+    '9.Type in password input "password"': function() {
+        act.type(".form-control[name='password']", "newname");
+    },
+    '10.Click submit button "Log in"': function() {
+        act.click("#submitlogin");
+    },
+    '11.Type in input "username"': function() {
+        var actionTarget = function() {
+            return $(".form-control[name='username']").eq(0);
+        };
+        act.type(actionTarget, "newname");
+    },
+    '12.Type in password input "password"': function() {
+        act.type(".form-control[name='password']", "n");
+    },
+    "13.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    '14.Type in password input "password"': function() {
+        act.type(".form-control[name='password']", "newthing");
+    },
+    '15.Click submit button "Log in"': function() {
+        act.click("#submitlogin");
+    },
+    '17.Type in text area "message"': function() {
+        act.type("#post_area", "newtaks");
+    },
+    "18.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    "19.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    '20.Type in text area "message"': function() {
+        act.type("#post_area", "skjsadsakd");
+    },
+    '21.Click select "category"': function() {
+        var actionTarget = function() {
+            return $("#twitter-post").find(".form-control[name='category']");
+        };
+        act.click(actionTarget);
+    },
+    "22.Click input": function() {
+        var actionTarget = function() {
+            return $(".form-group").find("[name='duetime']");
+        };
+        act.click(actionTarget);
+    },
+    "23.Click input": function() {
+        var actionTarget = function() {
+            return $(".form-group").find("[name='duetime']");
+        };
+        act.click(actionTarget);
+    },
+    '24.Click submit button "Add Task"': function() {
+        act.click("#btn-sending");
+    },
+    '26.Type in text area "message"': function() {
+        act.type("#post_area", "gvhbjdksgad");
+    },
+    "27.Click input": function() {
+        var actionTarget = function() {
+            return $(".form-group").find("[name='duetime']");
+        };
+        act.click(actionTarget);
+    },
+    "28.Press key combination 8+2+7+3+1+2+3": function() {
+        act.press("8+2+7+3+1+2+3");
+    },
+    '29.Click submit button "Add Task"': function() {
+        act.click("#btn-sending");
+    },
+};
+
+"@test"["Task-good a"] = {
+    '1.Click button "New user"': function() {
+        act.click("#newuserbutton");
+    },
+    '2.Type in input "name"': function() {
+        act.type(".form-control.mb-3[name='name']", "newacc");
+    },
+    '3.Type in input "username"': function() {
+        act.type(".form-control.mb-3[name='username']", "newacc");
+    },
+    "4.Click div": function() {
+        act.click(".blur-box.form-group.card.text-center.text-light.mt-5.pb-5.pr-5.pl-5.pt-2.bg-secondary");
+    },
+    '5.Type in password input "password1"': function() {
+        act.type(".form-control.mb-3[name='password1']", "soso");
+    },
+    '6.Type in password input "password2"': function() {
+        act.type(".form-control.mb-5[name='password2']", "soso");
+    },
+    '7.Click submit button "Sign Up"': function() {
+        act.click("#submitnewuser");
+    },
+    '8.Type in input "username"': function() {
+        var actionTarget = function() {
+            return $(".form-control[name='username']").eq(0);
+        };
+        act.type(actionTarget, "newacc");
+    },
+    '9.Type in password input "password"': function() {
+        act.type(".form-control[name='password']", "soso");
+    },
+    
+    '10.Click submit button "Log in"': function() {
+        act.click("#submitlogin");
+    },
+    '11.Type in text area "message"': function() {
+        act.type("#post_area", "newtaks");
+    },
+    '12.Click select "category"': function() {
+        var actionTarget = function() {
+            return $("#twitter-post").find(".form-control[name='category']");
+        };
+        act.click(actionTarget);
+    },
+    '13.Type in input "duetime"': function() {
+        var actionTarget = function() {
+            return $(".form-group").find("[name='duetime']");
+        };
+        act.type(actionTarget, "05/12/1998");
+    },
+    "14.Click div": function() {
+        var actionTarget = function() {
+            return $("#twitter-post").find(".container");
+        };
+        act.click(actionTarget);
+    },
+    '15.Click submit button "Add Task"': function() {
+        act.click("#btn-sending");
+    },
+    "16.Assert": function() {
+        eq($(":containsExcludeChildren(General newacc)").length > 0, true);
+    },
+    '17.Click link "Mon May 11..."': function() {
+        act.click("#button-delete");
+    }
+};
+
+"@test"["Groups-new,join, leave"] = {
+    '1.Click button "New user"': function() {
+        act.click("#newuserbutton");
+    },
+    '2.Type in input "name"': function() {
+        act.type(".form-control.mb-3[name='name']", "newacc");
+    },
+    "3.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    "4.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    "5.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    '6.Type in input "name"': function() {
+        act.type(".form-control.mb-3[name='name']", "thing");
+    },
+    '7.Type in input "username"': function() {
+        act.type(".form-control.mb-3[name='username']", "newthing");
+    },
+    '8.Type in password input "password1"': function() {
+        act.type(".form-control.mb-3[name='password1']", "soso");
+    },
+    '9.Type in password input "password2"': function() {
+        act.type(".form-control.mb-5[name='password2']", "soso");
+    },
+    '10.Click submit button "Sign Up"': function() {
+        act.click("#submitnewuser");
+    },
+    '11.Type in input "username"': function() {
+        var actionTarget = function() {
+            return $(".form-control[name='username']").eq(0);
+        };
+        act.type(actionTarget, "newthing");
+    },
+    '12.Type in password input "password"': function() {
+        act.type(".form-control[name='password']", "soso");
+    },
+    '13.Click submit button "Log in"': function() {
+        act.click("#submitlogin");
+    },
+    '14.Click button "New Group"': function() {
+        var actionTarget = function() {
+            return $("#navbarNav").find(":containsExcludeChildren(New Group)");
+        };
+        act.click(actionTarget);
+    },
+    '15.Type in input "name"': function() {
+        var actionTarget = function() {
+            return $("#newgroup").find(".form-control.mb-3[name='name']");
+        };
+        act.type(actionTarget, "newcc");
+    },
+    "16.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    '17.Type in input "name"': function() {
+        var actionTarget = function() {
+            return $("#newgroup").find(".form-control.mb-3[name='name']");
+        };
+        act.type(actionTarget, "oco");
+    },
+    '18.Type in input "username"': function() {
+        act.type(".form-control.mb-3[name='username']", "newcoco");
+    },
+    '19.Click password input "password1"': function() {
+        act.click(".form-control.mb-3[name='password1']");
+    },
+    '20.Click input "username"': function() {
+        act.click(".form-control.mb-3[name='username']", {
+            caretPos: 4
+        });
+    },
+    "21.Press key BACKSPACE": function() {
+        act.press("backspace");
+    },
+    '22.Type in password input "password1"': function() {
+        act.type(".form-control.mb-3[name='password1']", "soso");
+    },
+    '23.Type in password input "password2"': function() {
+        act.type(".form-control.mb-5[name='password2']", "soso");
+    },
+    '24.Click submit button "Sign Up"': function() {
+        var actionTarget = function() {
+            return $("#newgroup").find(".btn.float-right.btn-lg.btn-primary");
+        };
+        act.click(actionTarget);
+    },
+    "25.Assert": function() {
+        eq($(".card-title.text-center").text(), "newcoco");
+        eq($(".text-center.text-handle").text(), "@newoco");
+        eq($(".list-group").eq(0).length > 0, true);
+    },
+    '26.Click link "Leave Group"': function() {
+        act.click(":containsExcludeChildren(Leave Group)");
+    },
+    "27.Assert": function() {
+        eq($(".card-title.text-center").text(), "newthing");
+    }
+};
+
 

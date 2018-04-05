@@ -68,12 +68,15 @@ router.post('/new/group/:handle', function(req, res){
     model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
     .then(users => {
       console.log(users);
-    })
-  var socket = io.instance();
-  socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
-  socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
-  
-  res.redirect('/' + req.params.handle);
+        var socket = io.instance();
+        socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
+        socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: Date.now()});
+        
+        res.redirect('/' + req.params.handle);
+    }).catch(function(err){
+        res.redirect('/' + req.params.handle);
+      });
+
 });
 
 router.get('/complete/:id', function(req, res){
@@ -102,47 +105,47 @@ router.get('/complete/:id', function(req, res){
 
 router.post('/assign/:id', function(req, res){
   //console.log("person1", req.body.category);
-  var params = {
-      id: req.params.id,
-      person: req.body.category
-  }
-  model.sequelize.query('UPDATE "Tasks" SET person = $person WHERE id=$id RETURNING *', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-  .then(tasks => {
-    //console.log("person2", req.body.category);
+  if(req.user){
+        var params = {
+        id: req.params.id,
+        person: req.body.category
+    }
+    model.sequelize.query('UPDATE "Tasks" SET person = $person WHERE id=$id RETURNING *', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+    .then(tasks => {
+      //console.log("person2", req.body.category);
 
-    model.sequelize.query('SELECT * FROM "Users" WHERE handle LIKE $person', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-    .then(users => {
-      params = {
-        name: "NEW TASK ASSIGNED",
-        person: users[0][0].handle,
-        grouphandle: users[0][0].handle,
-        completed: false,
-        duetime: tasks[0][0].duetime,
-        category: "General",
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      //console.log("person3", users[0].handle);
-      model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      model.sequelize.query('SELECT * FROM "Users" WHERE handle LIKE $person', { bind: params, type: model.sequelize.QueryTypes.ACTION})
       .then(users => {
-        console.log(users);
+        params = {
+          name: "NEW TASK ASSIGNED",
+          person: users[0][0].handle,
+          grouphandle: users[0][0].handle,
+          completed: false,
+          duetime: tasks[0][0].duetime,
+          category: "General",
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+        //console.log("person3", users[0].handle);
+        model.sequelize.query('INSERT INTO "Tasks" ("name", "person", "grouphandle", "completed", "category", "duetime", "createdAt", "updatedAt") VALUES ($name, $person, $grouphandle, $completed, $category, $duetime, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+        .then(users => {
+          console.log(users);
+        })
       })
+
     })
 
-  })
+    var socket = io.instance();
+    socket.to(req.body.category.trim()).emit('postmessage', {message: "NEW TASK ASSIGNED", user: req.user, time: req.body.duetime});
+    socket.to(req.body.category.trim()).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
 
-  var socket = io.instance();
-  console.log("sending");
-  console.log(req.body.category);
- //socket.to(req.user.handle).emit('postmessage', {message: "NEW TASK ASSIGNED", user: req.user, time: req.body.duetime});
- // socket.to(req.params.handle).emit('postmessage', {message: "NEW TASK ASSIGNED", user: req.user, time: req.body.duetime});
-  socket.to(req.body.category.trim()).emit('postmessage', {message: "NEW TASK ASSIGNED", user: req.user, time: req.body.duetime});
- // var socket = io.instance();
- // socket.to(req.user.handle).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
- // socket.to(req.params.handle).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
-  socket.to(req.body.category.trim()).emit('postmessage', {message: req.body.message, user: req.user, time: req.body.duetime});
+    res.status(200);
+    res.redirect('/' + req.user.handle);
+  } else {
+    res.status(200);
+    res.redirect('/users/loginpage');
+  }
 
-  res.redirect('/' + req.user.handle);
 });
 
 
