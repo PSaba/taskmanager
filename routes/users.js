@@ -110,61 +110,59 @@ router.post('/loggedin', function(req, res){
 });
 
 router.post('/signedup', function(req, res){
-  if(req.body.password1.trim() != req.body.password2.trim()){
+  if((req.body.name.trim() === "") || (req.body.username.trim() === "") || (req.body.password1.trim() === "") || (req.body.password2.trim() === "")){
     res.status(200);
-    res.render('loginpage', {err: "Your passwords don't match"});
-  } else {
-    var params = {
-      handle: req.body.username.trim(),
-    }
-    model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
-    .then(users => {
-      if(users === []){
-        console.log(users)
-        res.render('loginpage', {err: "Handle already in use"});
-      } else {
-        try {
-        params = {
-        name: req.body.name.trim(),
-        handle: req.body.username.trim(),
-        password: req.body.password1.trim(),
-        category: "General",
-        grouporuser: false,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-      .then(users => {
-        console.log(users);
-      });
-
+    res.render('loginpage', {err: "Fill out the sign up form properly"});
+  } else{
+    if(req.body.password1.trim() != req.body.password2.trim()){
+      res.status(200);
+      res.render('loginpage', {err: "Your passwords don't match"});
+    } else {
       var params = {
-        userhandle: req.body.username.trim(),
-        grouphandle: req.body.username.trim(),
-        createdAt: new Date(),
-        updatedAt: new Date()
+        handle: req.body.username.trim(),
       }
-      model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+      model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(users => {
-        console.log(users);
-      })
-      res.status(200);
-      res.redirect('/'+ req.body.username.trim());
-    } catch (error) {
-      res.status(200);
-      res.render('loginpage', {err: "Something happened"});
-    }
+        if(users === []){
+          console.log(users)
+          res.render('loginpage', {err: "Handle already in use"});
+        } else {
+          try {
+          params = {
+          name: req.body.name.trim(),
+          handle: req.body.username.trim(),
+          password: req.body.password1.trim(),
+          category: "General",
+          grouporuser: false,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+        model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+        .then(users => {
+          console.log(users);
+        });
+
+        var params = {
+          userhandle: req.body.username.trim(),
+          grouphandle: req.body.username.trim(),
+          createdAt: new Date(),
+          updatedAt: new Date()
+        }
+        model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+        .then(users => {
+          console.log(users);
+        })
+        res.status(200);
+        res.redirect('/'+ req.body.username.trim());
+      } catch (error) {
+        res.status(200);
+        res.render('loginpage', {err: "Something happened"});
       }
-    });
-
-
-    
+        }
+      });    
+    }
   }
-  
-  
-  
 
-    
 });
 
 router.post('/addcategory/:handle', function(req, res){

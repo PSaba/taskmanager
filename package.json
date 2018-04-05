@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "mocha",
+    "test": "testcafe chrome testing/",
     "testfront": "testcafe chrome testing/"
   },
   "dependencies": {

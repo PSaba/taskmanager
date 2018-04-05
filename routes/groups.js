@@ -8,54 +8,64 @@ var io = require('../io');
 
 
 router.post('/new', function(req, res){
-  if(req.body.password1 === req.body.password2){
-    var params = {
-      handle: req.body.username.trim()
-    }
-    model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
-    .then(users => {
-      // if(users !== []){
-      //   //res.status(200);
-      //   res.render('loginpage', {err: "Handle already in use"});
-      // } else {
-        params = {
-        name: req.body.name,
-        handle: req.body.username,
-        password: req.body.password1,
-        category: "General",
-        grouporuser: '1',
-        createdAt: new Date(),
-        updatedAt: new Date()
-     }
-      model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
-      .then(users => {
-        console.log(users);
-      });
-      if(req.user){
+  try {
+        if(req.body.password1 === req.body.password2){
         var params = {
-          userhandle: req.user.handle,
-          grouphandle: req.body.username,
-          createdAt: new Date(),
-          updatedAt: new Date()
+          handle: req.body.username.trim()
         }
-        model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+        model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
         .then(users => {
-          console.log(users);
-        })
+          // if(users !== []){
+          //   //res.status(200);
+          //   res.render('loginpage', {err: "Handle already in use"});
+          // } else {
+            params = {
+            name: req.body.name,
+            handle: req.body.username,
+            password: req.body.password1,
+            category: "General",
+            grouporuser: '1',
+            createdAt: new Date(),
+            updatedAt: new Date()
+        }
+          model.sequelize.query('INSERT INTO "Users" ("name", "handle", "password", "category", "grouporuser", "createdAt", "updatedAt") VALUES ($name, $handle, $password, $category, $grouporuser, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+          .then(users => {
+            console.log(users);
+          });
+          if(req.user){
+            var params = {
+              userhandle: req.user.handle,
+              grouphandle: req.body.username,
+              createdAt: new Date(),
+              updatedAt: new Date()
+            }
+            model.sequelize.query('INSERT INTO "groupsusers" ("userhandle", "grouphandle", "createdAt", "updatedAt") VALUES ($userhandle, $grouphandle, $createdAt, $updatedAt)', { bind: params, type: model.sequelize.QueryTypes.ACTION})
+            .then(users => {
+              console.log(users);
+            })
+          }
+          //}
+        
+      })
+      res.status(200);
+      res.redirect('/groups/' + req.body.username);
+    } else {
+      res.status(200);
+      if(req.user){
+        res.render('homepage' , {err: "Passwords are not matching"});
+      } else {
+        res.render('loginpage', {err: "Not logged in"});
       }
-      //}
-    
-  })
-  res.status(200);
-  res.redirect('/groups/' + req.body.username);
-} else {
-  res.status(200);
-  if(req.user){
-    res.render('homepage' , {err: "Passwords are not matching"});
-  } else {
-    res.render('loginpage', {err: "Not logged in"});
+    }
+  } catch (error) {
+    res.status(200);
+    if(req.user){
+      res.redirect('/users/prof' + req.user.handle);
+    } else {
+      res.render('loginpage', {err: "Not logged in"});
+    }
   }
-}
+  
     
 });
 

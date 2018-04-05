@@ -3,17 +3,20 @@ A way to organize tasks between many different groups of people
 
 #How to Get Started
 1. Clone master branch
-2. In correct directory run
+2. In the projects directory run
 ```npm install```
 3. Download and install *Postgres* at https://postgresapp.com/
-4. Open the Postgres App and initialize your server to port 5432.
-5. Create the database 'tasks'.
-6. Launch Sequelize migrations:
+4. Open the Postgres App and initialize your server to port 5432 (default port).
+5. Open up the command line within the App with psql by double-clicking any of the default databases.
+6. Create a new database by running:
+    ```CREATE DATABASE "tasks";```
+6. Back in the projects directory, launch the Sequelize migrations:
   ```sequelize db:migrate```
 7. Then, launch the website by running this command:
   ```npm start```
-8. If you want to test run: 
-    a. backend , run:
+  Go to  http://localhost:3000 and then use as normal.
+8. If you want to test: 
+    a. backend run:
   ```npm test```
 
     In package.json,
@@ -38,7 +41,8 @@ A way to organize tasks between many different groups of people
 # Pages
 
 1. Sign In page
- Can sign in or open new modal that will allow the user to sign up.
+ Can sign in or open new modal that will allow the user to sign up. Once they are signed up, the user can log in. 
+ If no input, will reject account.
 
 2. Profile Page
  Displays name, handle.
@@ -74,5 +78,4 @@ Testing:
 - Mocha
 - Chai
 - Chai-http
-- socket-tester
 - socket.io-client
