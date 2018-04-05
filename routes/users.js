@@ -6,21 +6,27 @@ var io = require('../io');
 
 router.get('/prof/:handle', function(req, res ) {
   if(req.user){
-    io.login();
+    //io.login();
     var params = {
     handle: req.params.handle
     };
     try {
       model.sequelize.query('SELECT * FROM "Tasks" WHERE "Tasks".person LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(tasks => {
-    //    res.render('test', {user:users[0]});
           model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
           .then(users => {
-            model.sequelize.query('SELECT * FROM "groupsusers" WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+            model.sequelize.query('SELECT grouphandle FROM "groupsusers" WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
             .then(groups => {
               model.sequelize.query('SELECT * FROM "Users" WHERE "Users".grouporuser = \'1\'', { bind: params, type: model.sequelize.QueryTypes.SELECT})
               .then(allgroups => {
-                res.render('homepage', {allgroups: allgroups, requser: req.user, user:users, tasks: tasks, groups: groups});
+                let groupsend = [];
+                groups.forEach(element => {
+                  if(groupsend.indexOf(element.grouphandle) == -1){
+                    groupsend.push(element.grouphandle);
+                }
+                });
+                console.log("groupssend ", groupsend);
+                res.render('homepage', {allgroups: allgroups, requser: req.user, user:users, tasks: tasks, groups: groupsend});
               })
             })
           })
@@ -41,16 +47,18 @@ router.post('/prof/edit/:handle', function(req, res){
   .then(users => {
     if(req.body.name != ""){
       params = {
+        handle: req.params.handle,
         name: req.body.name
       }
-      model.sequelize.query('UPDATE "Users" SET name = $name', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      model.sequelize.query('UPDATE "Users" WHERE "Users".handle SET name = $name', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(allgroups => {})
     }
     if(req.body.password != ""){
       params = {
+        handle: req.params.handle,
         password: req.body.password
       }
-      model.sequelize.query('UPDATE "Users" SET password = $password', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+      model.sequelize.query('UPDATE "Users" WHERE "Users".handle SET password = $password', { bind: params, type: model.sequelize.QueryTypes.SELECT})
       .then(allgroups => {})
     }
   })
@@ -85,6 +93,7 @@ router.post('/loggedin', function(req, res){
      // delete req.user.password; // delete the password from the session
       req.session.user = results[0];
       io.login();
+      console.log(results[0].handle);
       res.redirect('/users/prof/' +results[0].handle);
       //res.redirect('/');
     //  }
@@ -206,7 +215,9 @@ router.post('/joingroup/', function(req, res){
     }
     model.sequelize.query('SELECT * FROM "Users" WHERE "Users".handle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
     .then(users => {
-      if(users[0].password === req.body.password){
+      console.log(users[0].password.trim(), "   ", req.body.password.trim());
+      if(users[0].password.trim() === req.body.password.trim()){
+        console.log("part 1");
         var params = {
           userhandle: req.user.handle,
           grouphandle: req.body.handle,
@@ -223,15 +234,19 @@ router.post('/joingroup/', function(req, res){
           }
         })
         res.status(200);
-        res.redirect('/users/prof/'+ req.body.handle);
+        res.redirect('/groups/'+ req.body.handle);
+      } else {
+        console.log("part 2");
+        res.status(200);
+        res.redirect('/users/prof/' + req.user.handle);        
       }
-      res.status(500);
-      res.redirect('/users/loginpage');
+
     })
 
    
   } else {
-    res.status(500);
+    console.log("part 3");
+    res.status(200);
     res.redirect('/users/loginpage');
   }
 });

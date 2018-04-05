@@ -15,6 +15,7 @@ login: function(){
         var cookie = socket.request.headers.cookie;
         cookie = cookietemp.parse(cookie);
         var opts = sesh;
+        console.log("cookie", cookie.session);
         cookie = session.util.decode(opts, cookie.session);
         // userModel.findOne({ 
         //     handle: cookie.content.user.handle}, 

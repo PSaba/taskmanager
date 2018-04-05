@@ -131,7 +131,7 @@ router.post('/seeall', function(req, res){
 
 router.get('/:handle', function(req, res, next) {
   if(req.user){
-    io.login();
+    //io.login();
     var params = {
     handle: req.params.handle.trim()
     };
@@ -148,8 +148,14 @@ router.get('/:handle', function(req, res, next) {
             params = {
               handle: req.user.handle
             }
-            model.sequelize.query('SELECT * FROM "groupsusers" WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
+            model.sequelize.query('SELECT grouphandle FROM "groupsusers" WHERE groupsusers.userhandle LIKE $handle', { bind: params, type: model.sequelize.QueryTypes.SELECT})
             .then(groups => {
+              let groupsend = [];
+              groups.forEach(element => {
+                if(groupsend.indexOf(element.grouphandle) == -1){
+                  groupsend.push(element.grouphandle);
+              }
+              });
               params = {
                 handle: req.params.handle
               }
@@ -158,7 +164,7 @@ router.get('/:handle', function(req, res, next) {
 
                 model.sequelize.query('SELECT * FROM "Users" WHERE "Users".grouporuser = \'1\'', { bind: params, type: model.sequelize.QueryTypes.SELECT})
                 .then(allgroups => {
-                  res.render('groupprofile', {members: members, allgroups: allgroups, requser: req.user, user:users, tasks: tasks, groups: groups});
+                  res.render('groupprofile', {members: members, allgroups: allgroups, requser: req.user, user:users, tasks: tasks, groups: groupsend});
                 })
               })
             })

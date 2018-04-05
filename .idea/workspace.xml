@@ -65,7 +65,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Users" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Users" pinned="false" current-in-tab="true">
         <entry file="das://table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.Users">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
@@ -78,7 +78,7 @@
         <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b510e747-5b2e-4ee7-8962-a521123439de/console.sql">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="336">
-              <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+              <caret line="16" column="25" lean-forward="false" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -102,7 +102,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="groupsusers" pinned="false" current-in-tab="true">
+      <file leaf-file-name="groupsusers" pinned="false" current-in-tab="false">
         <entry file="das://table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
@@ -114,8 +114,8 @@
       <file leaf-file-name="groupsusers" pinned="false" current-in-tab="false">
         <entry file="das://src:table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+            <state relative-caret-position="147">
+              <caret line="7" column="2" lean-forward="false" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -128,12 +128,13 @@
       <list>
         <option value="src:table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.SequelizeMeta" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/b510e747-5b2e-4ee7-8962-a521123439de/console.sql" />
+        <option value="src:table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="97" />
-    <option name="y" value="42" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="316" />
+    <option name="y" value="62" />
     <option name="width" value="1244" />
     <option name="height" value="817" />
   </component>
@@ -195,14 +196,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="97" y="42" width="1244" height="817" extended-state="1" />
-    <editor active="true" />
+    <frame x="316" y="62" width="1244" height="817" extended-state="0" />
     <layout>
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23545706" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22545756" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972974" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28369385" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28369385" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32702702" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -524,19 +524,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://src:table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b510e747-5b2e-4ee7-8962-a521123439de/console.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="13" lean-forward="false" selection-start-line="1" selection-start-column="13" selection-end-line="1" selection-end-column="13" />
+        <state relative-caret-position="336">
+          <caret line="16" column="25" lean-forward="false" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/b510e747-5b2e-4ee7-8962-a521123439de/console.sql">
+    <entry file="das://src:table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="16" column="25" lean-forward="true" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
+        <state relative-caret-position="147">
+          <caret line="7" column="2" lean-forward="false" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -548,13 +555,6 @@
       </provider>
     </entry>
     <entry file="das://table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.Users">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://table:/9d1d27d3/b510e747-5b2e-4ee7-8962-a521123439de/tasks.public.groupsusers">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />

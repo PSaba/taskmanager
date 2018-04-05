@@ -27,6 +27,7 @@ router.get('/deleteall', function(req, res){
   .then(users => {});
   model.sequelize.query('DELETE  FROM "Tasks"', { type: model.sequelize.QueryTypes.SELECT})
   .then(users => {});
+  res.redirect('/users/loginpage');
 });
 
 router.get('/seetasks', function(req, res){

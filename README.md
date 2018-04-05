@@ -5,19 +5,34 @@ A way to organize tasks between many different groups of people
 1. Clone master branch
 2. In correct directory run
 ```npm install```
-3. Download and install Postgres at https://postgresapp.com/
+3. Download and install *Postgres* at https://postgresapp.com/
 4. Open the Postgres App and initialize your server to port 5432.
 5. Create the database 'tasks'.
 6. Launch Sequelize migrations:
   ```sequelize db:migrate```
 7. Then, launch the website by running this command:
   ```npm start```
-7. If you want to test backend instead, run:
+8. If you want to test run: 
+    a. backend , run:
   ```npm test```
-8. If you want to test frontent instead, make sure that testcafe is running. Then, open two tabs that are both in the correct directory. First run:
-  ```npm start```
-  Immediately after run:
-  ```testcafe all testing```
+
+    In package.json,
+    "scripts": {
+        "start": "node ./bin/www",
+        "test": "mocha",
+      },
+
+    b. Frontent instead, make sure that *testcafe* is running. Then, open two tabs that are both in the correct directory. First run:
+    ```npm start```
+      
+      In package.json,
+      "scripts": {
+        "start": "node ./bin/www",
+        "test": ""testcafe chrome testing/",
+      },
+
+    Then run, 
+    ```npm test```
 
 # Pages
 
